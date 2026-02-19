@@ -1,0 +1,16 @@
+export const INDUSTRIES = [
+  { value: 'financial_services', label: 'Financial Services' },
+  { value: 'healthcare', label: 'Healthcare' },
+  { value: 'technology', label: 'Technology' },
+  { value: 'government', label: 'Government' },
+  { value: 'education', label: 'Education' },
+  { value: 'retail', label: 'Retail & E-Commerce' },
+  { value: 'manufacturing', label: 'Manufacturing' },
+  { value: 'energy', label: 'Energy & Utilities' },
+  { value: 'telecommunications', label: 'Telecommunications' },
+  { value: 'transportation', label: 'Transportation' },
+  { value: 'media', label: 'Media & Entertainment' },
+  { value: 'legal', label: 'Legal' },
+  { value: 'nonprofit', label: 'Non-Profit' },
+  { value: 'other', label: 'Other' },
+] as const
