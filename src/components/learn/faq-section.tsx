@@ -33,9 +33,9 @@ export function FAQSection() {
   return (
     <section className="mb-12">
       <h2 className="text-xl font-display font-bold text-foreground mb-6">Frequently Asked Questions</h2>
-      <Accordion type="single" collapsible className="border border-white/10 rounded-lg">
-        {faqs.map((faq) => (
-          <FAQItem key={faq.value} {...faq} />
+      <Accordion type="single" collapsible className="flex flex-col gap-3">
+        {faqs.map((faq, i) => (
+          <FAQItem key={faq.value} {...faq} index={i + 1} />
         ))}
       </Accordion>
     </section>

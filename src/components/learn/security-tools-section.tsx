@@ -52,6 +52,7 @@ export function SecurityToolsSection() {
           <SecurityToolCard
             key={tool.id}
             tool={tool}
+            isSelected={selectedTool?.id === tool.id}
             onClick={() => setSelectedTool(tool)}
           />
         ))}

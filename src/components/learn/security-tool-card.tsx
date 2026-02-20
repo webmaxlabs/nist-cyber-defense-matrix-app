@@ -1,23 +1,32 @@
 'use client'
 
+import { ToolLogo } from './tool-logo'
+import { cn } from '@/lib/utils'
 import type { SecurityToolData } from '@/lib/data/security-tools'
 
 interface SecurityToolCardProps {
   tool: SecurityToolData
+  isSelected?: boolean
   onClick: () => void
 }
 
-export function SecurityToolCard({ tool, onClick }: SecurityToolCardProps) {
+export function SecurityToolCard({ tool, isSelected, onClick }: SecurityToolCardProps) {
   return (
     <button
       onClick={onClick}
-      className="flex flex-col items-center justify-center rounded-xl border-2 border-white/10 glass p-3 hover:border-cyan-500/30 hover:shadow-md hover:shadow-cyan-500/5 transition-all aspect-square"
+      className={cn(
+        'relative flex flex-col items-center justify-center rounded-xl p-3 transition-all aspect-square',
+        'bg-[rgba(14,20,37,0.8)] backdrop-blur-xl',
+        isSelected
+          ? 'gradient-border-animated border-0'
+          : 'border-2 border-white/10 hover:border-cyan-500/30 hover:shadow-md hover:shadow-cyan-500/5'
+      )}
       title={tool.vendorName}
     >
-      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/5 text-sm font-bold font-mono text-slate-300 mb-1.5">
-        {tool.vendorName.slice(0, 2).toUpperCase()}
+      <div className="mb-1.5">
+        <ToolLogo vendorName={tool.vendorName} websiteUrl={tool.websiteUrl} size="sm" />
       </div>
-      <span className="text-[10px] text-muted-foreground text-center leading-tight line-clamp-2">
+      <span className="text-xs text-muted-foreground text-center leading-tight line-clamp-2">
         {tool.vendorName}
       </span>
     </button>

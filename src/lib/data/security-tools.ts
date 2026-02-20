@@ -417,7 +417,7 @@ export const SECURITY_TOOLS: SecurityToolData[] = [
     ],
     costRange: 'enterprise',
     popularityRank: 17,
-    websiteUrl: 'https://www.carbonblack.com',
+    websiteUrl: 'https://www.broadcom.com/products/cybersecurity/endpoint/carbon-black-cloud',
   },
   {
     id: 'trend-micro',

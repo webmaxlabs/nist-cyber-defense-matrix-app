@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import { ASSET_CLASSES, NIST_FUNCTIONS, ASSET_LABELS, NIST_LABELS } from '@/lib/constants/matrix'
 import type { SecurityToolData } from '@/lib/data/security-tools'
 
@@ -26,8 +27,8 @@ export function ToolMatrixCoverage({ tool }: ToolMatrixCoverageProps) {
             ))}
 
             {ASSET_CLASSES.map((asset) => (
-              <>
-                <div key={`label-${asset}`} className="text-xs font-medium text-slate-300 flex items-center">
+              <Fragment key={asset}>
+                <div className="text-xs font-medium text-slate-300 flex items-center">
                   {ASSET_LABELS[asset]}
                 </div>
                 {NIST_FUNCTIONS.map((fn) => {
@@ -43,7 +44,7 @@ export function ToolMatrixCoverage({ tool }: ToolMatrixCoverageProps) {
                     </div>
                   )
                 })}
-              </>
+              </Fragment>
             ))}
           </div>
         </div>

@@ -196,6 +196,19 @@
   pointer-events: none;
 }
 
+.gradient-border-modal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(from var(--angle), transparent 30%, #22d3ee 55%, #818cf8 75%, transparent 90%);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: gradient-rotate 3s linear infinite;
+  pointer-events: none;
+}
+
 /* Scan Line */
 @keyframes scan {
   0% { transform: translateY(-100%); }
