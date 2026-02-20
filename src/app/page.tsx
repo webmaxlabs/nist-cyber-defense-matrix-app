@@ -32,7 +32,7 @@ export default function HomePage() {
               <p>
                 Sounil Yu created the Cyber Defense Matrix as a way to cut through the noise &mdash; a
                 simple 5&times;5 grid that maps security functions against asset classes. It started as a
-                framework in a book. DefenseMatrix turns that framework into a tool any security team
+                framework in a book. Cyber Defense Matrix AI turns that framework into a tool any security team
                 can deploy.
               </p>
               <p>
@@ -118,7 +118,7 @@ export default function HomePage() {
                 Your security posture shouldn&apos;t be a mystery.
               </h2>
               <p className="text-muted-foreground mb-8 max-w-lg mx-auto">
-                Deploy DefenseMatrix for your team or try the live demo. Open source,
+                Deploy Cyber Defense Matrix AI for your team or try the live demo. Open source,
                 self-hosted, no strings attached.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -153,7 +153,7 @@ export default function HomePage() {
                 <div className="flex h-7 w-7 items-center justify-center rounded-md bg-cyan-500/10 border border-cyan-500/15">
                   <Shield className="h-3.5 w-3.5 text-cyan-400" />
                 </div>
-                <span className="font-display text-sm font-semibold text-foreground">DefenseMatrix</span>
+                <span className="font-display text-sm font-semibold text-foreground">Cyber Defense Matrix AI</span>
               </div>
               <p className="text-xs text-muted-foreground leading-relaxed">
                 Open source cybersecurity assessment. Built on Sounil Yu&apos;s Cyber Defense Matrix.
@@ -225,7 +225,7 @@ export default function HomePage() {
           {/* Bottom bar */}
           <div className="border-t border-slate-200 dark:border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
             <p className="text-xs text-muted-foreground">
-              &copy; {new Date().getFullYear()} DefenseMatrix. Open source under MIT License.
+              &copy; {new Date().getFullYear()} Cyber Defense Matrix AI. Open source under MIT License.
             </p>
             <a
               href="https://github.com/webmaxlabs/nist-cyber-defense-matrix-app"

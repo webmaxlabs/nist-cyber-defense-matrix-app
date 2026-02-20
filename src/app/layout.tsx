@@ -22,7 +22,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DefenseMatrix — Cyber Defense Assessment",
+  title: "Cyber Defense Matrix AI — Security Posture Assessment",
   description: "Map your cybersecurity posture with the Cyber Defense Matrix framework",
 };
 

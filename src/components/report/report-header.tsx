@@ -11,7 +11,7 @@ export function ReportHeader({ project }: ReportHeaderProps) {
     <div className="text-center border-b border-slate-200 dark:border-white/10 pb-8 mb-8 print:border-gray-300">
       <div className="flex items-center justify-center gap-2 mb-4">
         <Shield className="h-8 w-8 text-cyan-400 print:text-blue-600" />
-        <span className="text-2xl font-display font-bold text-foreground print:text-black">DefenseMatrix</span>
+        <span className="text-2xl font-display font-bold text-foreground print:text-black">Cyber Defense Matrix AI</span>
       </div>
       <h1 className="text-3xl font-display font-bold text-foreground mb-2 print:text-black">{project.name}</h1>
       <p className="text-muted-foreground print:text-gray-500">Security Assessment Report</p>

@@ -38,7 +38,7 @@ export function LoginForm() {
   }
 
   return (
-    <AuthCard title="Welcome back" description="Sign in to your DefenseMatrix account">
+    <AuthCard title="Welcome back" description="Sign in to your Cyber Defense Matrix AI account">
       <div className="space-y-4">
         <OAuthButtons />
 

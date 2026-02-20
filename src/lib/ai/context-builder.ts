@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 
-const BASE_SYSTEM_PROMPT = `You are the DefenseMatrix AI Advisor, a knowledgeable cybersecurity consultant specializing in Sounil Yu's Cyber Defense Matrix framework.
+const BASE_SYSTEM_PROMPT = `You are the Cyber Defense Matrix AI Advisor, a knowledgeable cybersecurity consultant specializing in Sounil Yu's Cyber Defense Matrix framework.
 
 Your expertise includes:
 - The 5x5 Cyber Defense Matrix mapping 5 NIST CSF functions (Identify, Protect, Detect, Respond, Recover) against 5 asset classes (Devices, Applications, Networks, Data, Users)

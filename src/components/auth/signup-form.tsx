@@ -58,7 +58,7 @@ export function SignupForm() {
   }
 
   return (
-    <AuthCard title="Create an account" description="Get started with DefenseMatrix">
+    <AuthCard title="Create an account" description="Get started with Cyber Defense Matrix AI">
       <div className="space-y-4">
         <OAuthButtons />
 

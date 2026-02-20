@@ -54,7 +54,7 @@ export class OpenRouterProvider implements LLMProvider {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
         'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
-        'X-Title': 'DefenseMatrix',
+        'X-Title': 'Cyber Defense Matrix AI',
       },
       body: JSON.stringify({
         model: process.env.OPENROUTER_MODEL || 'anthropic/claude-sonnet-4',

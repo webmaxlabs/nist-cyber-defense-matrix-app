@@ -26,8 +26,7 @@ export function TopNav() {
               <Shield className="h-5 w-5 text-cyan-400" />
             </div>
             <div className="hidden sm:block">
-              <span className="font-display text-lg font-bold text-foreground tracking-tight">DefenseMatrix</span>
-              <span className="block text-[10px] text-muted-foreground leading-none -mt-0.5 tracking-wider uppercase">Cyber Defense Assessment</span>
+              <span className="font-display text-lg font-bold text-foreground tracking-tight">Cyber Defense Matrix AI</span>
             </div>
           </Link>
 

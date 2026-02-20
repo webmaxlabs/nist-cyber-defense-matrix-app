@@ -106,7 +106,7 @@ export function HeroSection() {
             </h1>
 
             <p className="text-lg text-muted-foreground max-w-lg mb-10 leading-relaxed">
-              DefenseMatrix maps your tools and capabilities across the Cyber Defense
+              Cyber Defense Matrix AI maps your tools and capabilities across the Cyber Defense
               Matrix &mdash; a proven 5&times;5 framework that cuts through vendor noise and
               shows you where you&apos;re strong, where you&apos;re exposed, and what to do about it.
             </p>
