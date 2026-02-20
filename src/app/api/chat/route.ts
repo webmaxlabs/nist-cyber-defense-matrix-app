@@ -1,25 +1,18 @@
 import { NextRequest } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { runAgentLoop } from '@/lib/ai/agent-loop'
+import type { ConversationMessage } from '@/lib/ai/providers/types'
+import type { ChatProposal } from '@/lib/supabase/types'
+import { z } from 'zod'
 
-const SYSTEM_PROMPT = `You are the DefenseMatrix AI Advisor, a knowledgeable cybersecurity consultant specializing in Sounil Yu's Cyber Defense Matrix framework.
-
-Your expertise includes:
-- The 5x5 Cyber Defense Matrix (5 NIST functions x 5 asset classes)
-- NIST Cybersecurity Framework (Identify, Protect, Detect, Respond, Recover)
-- Security tool selection and mapping across the matrix
-- Maturity assessment guidance (Levels 1-5)
-- Gap analysis and prioritization
-- Industry-specific security recommendations
-- Security best practices and frameworks (NIST, CIS, ISO 27001)
-
-When helping users:
-- Reference specific cells in the matrix (e.g., "Devices/Detect")
-- Suggest concrete tools and technologies
-- Provide actionable recommendations
-- Explain maturity levels with practical examples
-- Help prioritize security investments
-
-Be concise, practical, and security-focused. Use bullet points for lists. Format responses with markdown.`
+const requestSchema = z.object({
+  messages: z.array(z.object({
+    role: z.enum(['user', 'assistant']),
+    content: z.string().max(50000),
+  })).min(1).max(200),
+  conversationId: z.string().uuid().nullable().optional().default(null),
+  projectIds: z.array(z.string().uuid()).max(10).optional().default([]),
+})
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient()
@@ -29,85 +22,86 @@ export async function POST(request: NextRequest) {
     return new Response('Unauthorized', { status: 401 })
   }
 
-  const { messages, projectContext } = await request.json()
-
-  // Build system message with optional project context
-  let systemMessage = SYSTEM_PROMPT
-  if (projectContext) {
-    systemMessage += `\n\nCurrent Project Context:\n${JSON.stringify(projectContext, null, 2)}`
+  const body = await request.json()
+  const parsed = requestSchema.safeParse(body)
+  if (!parsed.success) {
+    return new Response(JSON.stringify({ error: 'Invalid request', details: parsed.error.issues }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    })
   }
 
-  const apiMessages = [
-    { role: 'system', content: systemMessage },
-    ...messages.map((m: { role: string; content: string }) => ({
-      role: m.role,
-      content: m.content,
-    })),
-  ]
+  const { messages, conversationId, projectIds } = parsed.data
 
-  const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
-      'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
-      'X-Title': 'DefenseMatrix',
-    },
-    body: JSON.stringify({
-      model: process.env.OPENROUTER_MODEL || 'anthropic/claude-opus-4',
-      messages: apiMessages,
-      stream: true,
-    }),
-  })
-
-  if (!response.ok) {
-    const error = await response.text()
-    return new Response(`API error: ${error}`, { status: response.status })
+  // Verify user has access to requested projects
+  let validatedProjectIds = projectIds
+  if (projectIds.length > 0) {
+    const { data: accessibleProjects } = await supabase
+      .from('projects')
+      .select('id')
+      .in('id', projectIds)
+    const accessibleIds = new Set((accessibleProjects || []).map((p) => p.id))
+    validatedProjectIds = projectIds.filter((id) => accessibleIds.has(id))
   }
 
-  // Stream the response back
+  // Convert to ConversationMessage format
+  const agentMessages: ConversationMessage[] = messages.map((m) => ({
+    role: m.role,
+    content: m.content,
+  }))
+
   const encoder = new TextEncoder()
+  const proposals: ChatProposal[] = []
+  let fullText = ''
+
   const stream = new ReadableStream({
     async start(controller) {
-      const reader = response.body?.getReader()
-      if (!reader) {
-        controller.close()
-        return
-      }
-
-      const decoder = new TextDecoder()
-      let buffer = ''
-
       try {
-        while (true) {
-          const { done, value } = await reader.read()
-          if (done) break
-
-          buffer += decoder.decode(value, { stream: true })
-          const lines = buffer.split('\n')
-          buffer = lines.pop() || ''
-
-          for (const line of lines) {
-            if (line.startsWith('data: ')) {
-              const data = line.slice(6).trim()
-              if (data === '[DONE]') {
-                controller.enqueue(encoder.encode('data: [DONE]\n\n'))
-                continue
-              }
-              try {
-                const parsed = JSON.parse(data)
-                const content = parsed.choices?.[0]?.delta?.content
-                if (content) {
-                  controller.enqueue(encoder.encode(`data: ${JSON.stringify({ content })}\n\n`))
-                }
-              } catch {
-                // Skip malformed JSON
-              }
+        for await (const event of runAgentLoop({
+          messages: agentMessages,
+          projectIds: validatedProjectIds,
+        })) {
+          if (event.type === 'text') {
+            fullText += event.content
+            controller.enqueue(
+              encoder.encode(`data: ${JSON.stringify({ type: 'text', content: event.content })}\n\n`)
+            )
+          } else if (event.type === 'proposal') {
+            proposals.push(event.proposal)
+            controller.enqueue(
+              encoder.encode(`data: ${JSON.stringify({ type: 'proposal', proposal: event.proposal })}\n\n`)
+            )
+          } else if (event.type === 'error') {
+            controller.enqueue(
+              encoder.encode(`data: ${JSON.stringify({ type: 'error', message: event.message })}\n\n`)
+            )
+          } else if (event.type === 'done') {
+            // Save messages to database
+            let savedConvId = conversationId
+            try {
+              savedConvId = await saveMessages(supabase, {
+                conversationId,
+                userId: user.id,
+                projectIds: validatedProjectIds,
+                userMessage: [...messages].reverse().find((m) => m.role === 'user')?.content || '',
+                assistantMessage: fullText,
+                proposals: proposals.length > 0 ? proposals : null,
+              })
+            } catch (err) {
+              console.error('Failed to save messages:', err)
             }
+
+            // Send done event with conversation ID
+            controller.enqueue(
+              encoder.encode(`data: ${JSON.stringify({ type: 'done', conversationId: savedConvId })}\n\n`)
+            )
           }
         }
+      } catch (err) {
+        controller.enqueue(
+          encoder.encode(`data: ${JSON.stringify({ type: 'error', message: (err as Error).message })}\n\n`)
+        )
       } finally {
-        reader.releaseLock()
         controller.close()
       }
     },
@@ -120,4 +114,57 @@ export async function POST(request: NextRequest) {
       'Connection': 'keep-alive',
     },
   })
+}
+
+async function saveMessages(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  params: {
+    conversationId: string | null
+    userId: string
+    projectIds: string[]
+    userMessage: string
+    assistantMessage: string
+    proposals: ChatProposal[] | null
+  }
+): Promise<string> {
+  let convId: string = params.conversationId ?? ''
+
+  // Create conversation if needed
+  if (!convId) {
+    const { data: conv, error } = await supabase
+      .from('chat_conversations')
+      .insert({ user_id: params.userId })
+      .select()
+      .single()
+
+    if (error) throw error
+    convId = conv.id
+
+    // Link projects
+    if (params.projectIds.length > 0) {
+      await supabase.from('chat_conversation_projects').insert(
+        params.projectIds.map((pid) => ({
+          conversation_id: convId,
+          project_id: pid,
+        }))
+      )
+    }
+  }
+
+  // Save user message
+  await supabase.from('chat_messages').insert({
+    conversation_id: convId,
+    role: 'user',
+    content: params.userMessage,
+  })
+
+  // Save assistant message with proposals
+  await supabase.from('chat_messages').insert({
+    conversation_id: convId,
+    role: 'assistant',
+    content: params.assistantMessage,
+    proposals: params.proposals,
+  })
+
+  return convId
 }

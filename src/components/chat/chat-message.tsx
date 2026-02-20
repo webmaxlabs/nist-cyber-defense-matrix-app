@@ -4,13 +4,18 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { cn } from '@/lib/utils'
 import { Bot, User } from 'lucide-react'
+import { ConfirmationTile } from './confirmation-tile'
+import type { ChatProposal } from '@/lib/supabase/types'
 
 interface ChatMessageProps {
   role: 'user' | 'assistant'
   content: string
+  proposals?: ChatProposal[]
+  messageId?: string
+  onProposalStatusChange?: (proposalId: string, status: ChatProposal['status']) => void
 }
 
-export function ChatMessage({ role, content }: ChatMessageProps) {
+export function ChatMessage({ role, content, proposals, messageId, onProposalStatusChange }: ChatMessageProps) {
   const isUser = role === 'user'
 
   return (
@@ -38,6 +43,18 @@ export function ChatMessage({ role, content }: ChatMessageProps) {
         ) : (
           <div className="prose prose-sm dark:prose-invert max-w-none [&_p]:my-1 [&_ul]:my-1 [&_li]:my-0 [&_h3]:text-sm [&_h3]:mt-2 [&_code]:text-xs [&_code]:text-cyan-300 [&_code]:bg-slate-100 dark:[&_code]:bg-white/5 [&_a]:text-cyan-400">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+          </div>
+        )}
+        {proposals && proposals.length > 0 && (
+          <div className="mt-2">
+            {proposals.map((proposal) => (
+              <ConfirmationTile
+                key={proposal.id}
+                proposal={proposal}
+                messageId={messageId || ''}
+                onStatusChange={(proposalId, status) => onProposalStatusChange?.(proposalId, status)}
+              />
+            ))}
           </div>
         )}
       </div>
