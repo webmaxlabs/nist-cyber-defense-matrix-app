@@ -182,39 +182,37 @@ async function getGapAnalysis(projectId: string): Promise<string> {
 async function compareProjects(projectIds: string[]): Promise<string> {
   const supabase = await createClient()
 
-  const results: Array<{
-    project_id: string
-    project_name: string
-    overall_score: number
-    coverage_percentage: number
-    cells: Record<string, number>
-  }> = []
+  // Batch queries instead of N+1
+  const [{ data: projects }, { data: allAssessments }] = await Promise.all([
+    supabase.from('projects').select('id, name, overall_score, coverage_percentage').in('id', projectIds),
+    supabase.from('cell_assessments').select('project_id, cell_row, cell_column, maturity_level').in('project_id', projectIds),
+  ])
 
-  for (const id of projectIds) {
-    const { data: project } = await supabase
-      .from('projects')
-      .select('name, overall_score, coverage_percentage')
-      .eq('id', id)
-      .single()
+  const projectMap = new Map((projects || []).map((p) => [p.id, p]))
+  const assessmentsByProject = new Map<string, typeof allAssessments>()
+  for (const a of allAssessments || []) {
+    const list = assessmentsByProject.get(a.project_id) || []
+    list.push(a)
+    assessmentsByProject.set(a.project_id, list)
+  }
 
-    const { data: assessments } = await supabase
-      .from('cell_assessments')
-      .select('cell_row, cell_column, maturity_level')
-      .eq('project_id', id)
+  const results = projectIds.map((id) => {
+    const project = projectMap.get(id)
+    const assessments = assessmentsByProject.get(id) || []
 
     const cells: Record<string, number> = {}
-    for (const a of assessments || []) {
+    for (const a of assessments) {
       cells[`${ASSET_LABELS[a.cell_row as AssetClass]} / ${NIST_LABELS[a.cell_column as NistFunction]}`] = a.maturity_level
     }
 
-    results.push({
+    return {
       project_id: id,
       project_name: project?.name || 'Unknown',
       overall_score: project?.overall_score || 0,
       coverage_percentage: project?.coverage_percentage || 0,
       cells,
-    })
-  }
+    }
+  })
 
   return JSON.stringify({ comparison: results })
 }

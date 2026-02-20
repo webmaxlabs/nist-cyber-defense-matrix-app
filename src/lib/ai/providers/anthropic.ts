@@ -87,16 +87,21 @@ export class AnthropicProvider implements LLMProvider {
     }
 
     // After stream ends, get the final message for any tool_use blocks
-    const finalMessage = await stream.finalMessage()
-    for (const block of finalMessage.content) {
-      if (block.type === 'tool_use') {
-        yield {
-          type: 'tool_use',
-          id: block.id,
-          name: block.name,
-          input: block.input as Record<string, unknown>,
+    try {
+      const finalMessage = await stream.finalMessage()
+      for (const block of finalMessage.content) {
+        if (block.type === 'tool_use') {
+          yield {
+            type: 'tool_use',
+            id: block.id,
+            name: block.name,
+            input: block.input as Record<string, unknown>,
+          }
         }
       }
+    } catch (err) {
+      yield { type: 'error', message: `Failed to retrieve tool calls: ${(err as Error).message}` }
+      return
     }
 
     yield {

@@ -63,10 +63,12 @@ export async function updateConversationProjects(
 ) {
   const supabase = createClient()
 
-  await supabase
+  const { error: deleteError } = await supabase
     .from('chat_conversation_projects')
     .delete()
     .eq('conversation_id', conversationId)
+
+  if (deleteError) throw deleteError
 
   if (projectIds.length > 0) {
     const { error } = await supabase

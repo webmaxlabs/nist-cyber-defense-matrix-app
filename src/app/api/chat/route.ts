@@ -3,6 +3,16 @@ import { createClient } from '@/lib/supabase/server'
 import { runAgentLoop } from '@/lib/ai/agent-loop'
 import type { ConversationMessage } from '@/lib/ai/providers/types'
 import type { ChatProposal } from '@/lib/supabase/types'
+import { z } from 'zod'
+
+const requestSchema = z.object({
+  messages: z.array(z.object({
+    role: z.enum(['user', 'assistant']),
+    content: z.string().max(50000),
+  })).min(1).max(200),
+  conversationId: z.string().uuid().nullable().optional().default(null),
+  projectIds: z.array(z.string().uuid()).max(10).optional().default([]),
+})
 
 export async function POST(request: NextRequest) {
   const supabase = await createClient()
@@ -13,15 +23,26 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json()
-  const {
-    messages,
-    conversationId,
-    projectIds = [],
-  }: {
-    messages: Array<{ role: 'user' | 'assistant'; content: string }>
-    conversationId: string | null
-    projectIds: string[]
-  } = body
+  const parsed = requestSchema.safeParse(body)
+  if (!parsed.success) {
+    return new Response(JSON.stringify({ error: 'Invalid request', details: parsed.error.issues }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }
+
+  const { messages, conversationId, projectIds } = parsed.data
+
+  // Verify user has access to requested projects
+  let validatedProjectIds = projectIds
+  if (projectIds.length > 0) {
+    const { data: accessibleProjects } = await supabase
+      .from('projects')
+      .select('id')
+      .in('id', projectIds)
+    const accessibleIds = new Set((accessibleProjects || []).map((p) => p.id))
+    validatedProjectIds = projectIds.filter((id) => accessibleIds.has(id))
+  }
 
   // Convert to ConversationMessage format
   const agentMessages: ConversationMessage[] = messages.map((m) => ({
@@ -38,7 +59,7 @@ export async function POST(request: NextRequest) {
       try {
         for await (const event of runAgentLoop({
           messages: agentMessages,
-          projectIds,
+          projectIds: validatedProjectIds,
         })) {
           if (event.type === 'text') {
             fullText += event.content
@@ -61,8 +82,8 @@ export async function POST(request: NextRequest) {
               savedConvId = await saveMessages(supabase, {
                 conversationId,
                 userId: user.id,
-                projectIds,
-                userMessage: messages[messages.length - 1]?.content || '',
+                projectIds: validatedProjectIds,
+                userMessage: [...messages].reverse().find((m) => m.role === 'user')?.content || '',
                 assistantMessage: fullText,
                 proposals: proposals.length > 0 ? proposals : null,
               })

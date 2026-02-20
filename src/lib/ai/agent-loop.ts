@@ -107,5 +107,9 @@ export async function* runAgentLoop(params: {
     ]
   }
 
+  if (rounds >= MAX_TOOL_ROUNDS) {
+    yield { type: 'text', content: '\n\n*Note: This analysis reached the maximum number of tool calls. Results may be incomplete.*' }
+  }
+
   yield { type: 'done' }
 }

@@ -121,6 +121,7 @@ async function buildRemoveToolMappingProposal(
     .from('tool_mappings')
     .select('cell_row, cell_column, tool:tools(vendor_name)')
     .eq('id', input.mapping_id as string)
+    .eq('project_id', input.project_id as string)
     .single()
 
   const toolJoin = mapping?.tool as { vendor_name?: string } | null
