@@ -28,7 +28,6 @@ export async function* runAgentLoop(params: {
     rounds++
 
     const pendingToolCalls: ToolCall[] = []
-    let hasText = false
 
     for await (const event of provider.createAgentStream({
       systemPrompt,
@@ -36,7 +35,6 @@ export async function* runAgentLoop(params: {
       tools: ALL_TOOLS,
     })) {
       if (event.type === 'text') {
-        hasText = true
         yield { type: 'text', content: event.content }
       } else if (event.type === 'tool_use') {
         pendingToolCalls.push({
@@ -98,7 +96,7 @@ export async function* runAgentLoop(params: {
       ...messages,
       {
         role: 'assistant' as const,
-        content: hasText ? '' : '',
+        content: '',
         tool_calls: pendingToolCalls,
       },
       {

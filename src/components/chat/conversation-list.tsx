@@ -4,19 +4,19 @@ import { MessageSquare, Trash2 } from 'lucide-react'
 import { formatDistanceToNow, isToday, isYesterday, subDays, isAfter } from 'date-fns'
 import { useConversations, useDeleteConversation } from '@/lib/hooks/use-conversations'
 import { useChatContext } from '@/providers/chat-provider'
-import type { ChatConversation } from '@/lib/supabase/types'
+import type { ConversationWithProjects } from '@/lib/queries/conversations'
 
 interface GroupedConversations {
   label: string
-  conversations: ChatConversation[]
+  conversations: ConversationWithProjects[]
 }
 
-function groupByDate(conversations: ChatConversation[]): GroupedConversations[] {
+function groupByDate(conversations: ConversationWithProjects[]): GroupedConversations[] {
   const groups: GroupedConversations[] = []
-  const today: ChatConversation[] = []
-  const yesterday: ChatConversation[] = []
-  const lastWeek: ChatConversation[] = []
-  const older: ChatConversation[] = []
+  const today: ConversationWithProjects[] = []
+  const yesterday: ConversationWithProjects[] = []
+  const lastWeek: ConversationWithProjects[] = []
+  const older: ConversationWithProjects[] = []
   const sevenDaysAgo = subDays(new Date(), 7)
 
   for (const conv of conversations) {
@@ -91,9 +91,25 @@ export function ConversationList() {
                   <p className="text-xs truncate">
                     {conv.title || 'New conversation'}
                   </p>
-                  <p className="text-[10px] text-slate-400 dark:text-slate-500">
-                    {formatDistanceToNow(new Date(conv.updated_at), { addSuffix: true })}
-                  </p>
+                  <div className="flex items-center gap-1">
+                    {conv.projects?.length > 0 && (
+                      <div className="flex items-center gap-0.5">
+                        {conv.projects.slice(0, 3).map((p) => (
+                          <span
+                            key={p.project_id}
+                            className="h-1.5 w-1.5 rounded-full bg-cyan-400/60"
+                            title={p.project_name}
+                          />
+                        ))}
+                        {conv.projects.length > 3 && (
+                          <span className="text-[9px] text-slate-400">+{conv.projects.length - 3}</span>
+                        )}
+                      </div>
+                    )}
+                    <p className="text-[10px] text-slate-400 dark:text-slate-500">
+                      {formatDistanceToNow(new Date(conv.updated_at), { addSuffix: true })}
+                    </p>
+                  </div>
                 </div>
                 <button
                   onClick={(e) => {
