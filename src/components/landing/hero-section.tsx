@@ -3,7 +3,7 @@
 import { Fragment, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Shield, ArrowRight, Zap } from 'lucide-react'
+import { Shield, ArrowRight, Github } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 function FloatingParticle({ delay, x, y, size }: { delay: number; x: number; y: number; size: number }) {
@@ -91,38 +91,39 @@ export function HeroSection() {
               transition={{ delay: 0.2 }}
               className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-8"
             >
-              <Zap className="h-3.5 w-3.5 text-cyan-400" />
+              <Github className="h-3.5 w-3.5 text-cyan-400" />
               <span className="text-xs font-medium text-cyan-300 tracking-wide uppercase">
-                Powered by the Cyber Defense Matrix
+                Open Source
               </span>
             </motion.div>
 
-            <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6 leading-[1.05]">
-              <span className="text-gradient-cyan">Command</span>
+            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.1]">
+              <span className="text-foreground">See what your</span>
               <br />
-              <span className="text-foreground">Your Cyber</span>
+              <span className="text-foreground">security program</span>
               <br />
-              <span className="text-foreground">Defense</span>
+              <span className="text-gradient-cyan">actually covers.</span>
             </h1>
 
             <p className="text-lg text-muted-foreground max-w-lg mb-10 leading-relaxed">
-              Map security capabilities across Sounil Yu&apos;s Cyber Defense Matrix.
-              Assess maturity, identify gaps, map tools, and build an
-              unbreakable security program.
+              DefenseMatrix maps your tools and capabilities across the Cyber Defense
+              Matrix &mdash; a proven 5&times;5 framework that cuts through vendor noise and
+              shows you where you&apos;re strong, where you&apos;re exposed, and what to do about it.
             </p>
 
             <div className="flex flex-col sm:flex-row items-start gap-4">
               <Link href="/signup">
                 <Button size="lg" className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-semibold gap-2 h-12 px-8 glow-cyan-sm transition-all hover:glow-cyan">
-                  Get Started Free
+                  Try the Live Demo
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
-              <Link href="/learn">
-                <Button size="lg" variant="outline" className="border-slate-300 dark:border-slate-700/50 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:border-cyan-500/30 hover:text-cyan-300 h-12 px-8 transition-all">
-                  Learn More
+              <a href="https://github.com/webmaxlabs/nist-cyber-defense-matrix-app" target="_blank" rel="noopener noreferrer">
+                <Button size="lg" variant="outline" className="border-slate-300 dark:border-slate-700/50 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:border-cyan-500/30 hover:text-cyan-300 h-12 px-8 transition-all gap-2">
+                  <Github className="h-4 w-4" />
+                  View on GitHub
                 </Button>
-              </Link>
+              </a>
             </div>
 
             {/* Trust indicators */}
