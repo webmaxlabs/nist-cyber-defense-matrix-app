@@ -138,5 +138,30 @@ export interface ChatMessage {
   conversation_id: string
   role: 'user' | 'assistant' | 'system'
   content: string
+  proposals: ChatProposal[] | null
   created_at: string
+}
+
+export interface ChatProposal {
+  id: string
+  action: 'update_assessment' | 'add_tool_mapping' | 'remove_tool_mapping'
+  params: Record<string, unknown>
+  display: ChatProposalDisplay
+  status: 'pending' | 'applied' | 'dismissed' | 'error'
+  applied_at: string | null
+  error_message: string | null
+}
+
+export interface ChatProposalDisplay {
+  title: string
+  cell_label: string | null
+  current_value: string | null
+  proposed_value: string | null
+  tool_name: string | null
+  detail: string | null
+}
+
+export interface ChatConversationProject {
+  conversation_id: string
+  project_id: string
 }
