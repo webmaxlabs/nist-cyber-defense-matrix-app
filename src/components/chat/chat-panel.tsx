@@ -8,10 +8,11 @@ import { ChatMessage } from './chat-message'
 import { ChatInput } from './chat-input'
 import { ChatTypingIndicator } from './chat-typing-indicator'
 import { useChat } from '@/lib/hooks/use-chat'
+import { useConversationMessages } from '@/lib/hooks/use-conversations'
+import type { ChatProposal } from '@/lib/supabase/types'
 
 interface ChatPanelProps {
   onClose: () => void
-  projectContext?: Record<string, unknown> | null
   conversationId?: string | null
   projectIds?: string[]
   onConversationCreated?: (id: string) => void
@@ -19,13 +20,20 @@ interface ChatPanelProps {
 }
 
 export function ChatPanel({ onClose, conversationId = null, projectIds = [], onConversationCreated, onExpandToSidebar }: ChatPanelProps) {
-  const { messages, isLoading, sendMessage, clearMessages, stopGeneration } = useChat({ conversationId, projectIds, onConversationCreated })
-  const scrollRef = useRef<HTMLDivElement>(null)
+  const { messages, isLoading, sendMessage, loadMessages, clearMessages, stopGeneration, updateProposalLocally } = useChat({ conversationId, projectIds, onConversationCreated })
+  const { data: dbMessages } = useConversationMessages(conversationId)
+  const bottomRef = useRef<HTMLDivElement>(null)
 
+  // Load existing messages from DB when conversation data arrives
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight
+    if (dbMessages && dbMessages.length > 0) {
+      loadMessages(dbMessages as Array<{ id: string; role: string; content: string; proposals: ChatProposal[] | null }>)
     }
+  }, [dbMessages, loadMessages])
+
+  // Auto-scroll to bottom when messages change
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
   return (
@@ -72,7 +80,7 @@ export function ChatPanel({ onClose, conversationId = null, projectIds = [], onC
       </div>
 
       {/* Messages */}
-      <ScrollArea className="flex-1 p-3" ref={scrollRef}>
+      <ScrollArea className="flex-1 p-3">
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-8 text-center">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-500/10 border border-cyan-500/15 mb-3">
@@ -90,11 +98,17 @@ export function ChatPanel({ onClose, conversationId = null, projectIds = [], onC
                 key={message.id}
                 role={message.role}
                 content={message.content}
+                proposals={message.proposals}
+                messageId={message.db_message_id || message.id}
+                onProposalStatusChange={(proposalId: string, status: ChatProposal['status']) =>
+                  updateProposalLocally(message.db_message_id || message.id, proposalId, status)
+                }
               />
             ))}
             {isLoading && messages[messages.length - 1]?.content === '' && (
               <ChatTypingIndicator />
             )}
+            <div ref={bottomRef} />
           </div>
         )}
       </ScrollArea>
