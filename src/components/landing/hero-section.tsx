@@ -170,15 +170,15 @@ export function HeroSection() {
                 {/* Matrix Grid */}
                 <div className="grid grid-cols-6 gap-1.5">
                   <div className="col-span-1" />
-                  {['ID', 'PR', 'DE', 'RS', 'RC'].map((fn) => (
-                    <div key={fn} className="flex items-center justify-center rounded-md bg-cyan-500/10 border border-cyan-500/15 py-2">
-                      <span className="text-[10px] font-mono font-bold text-cyan-400 tracking-wider">{fn}</span>
+                  {['Identify', 'Protect', 'Detect', 'Respond', 'Recover'].map((fn) => (
+                    <div key={fn} className="flex items-center justify-center rounded-md bg-cyan-500/10 border border-cyan-500/15 py-1.5">
+                      <span className="text-[8px] font-mono font-bold text-cyan-400 tracking-wide">{fn}</span>
                     </div>
                   ))}
-                  {['DEV', 'APP', 'NET', 'DAT', 'USR'].map((asset, ri) => (
+                  {['Devices', 'Apps', 'Networks', 'Data', 'Users'].map((asset, ri) => (
                     <Fragment key={asset}>
-                      <div className="flex items-center justify-center rounded-md bg-indigo-500/10 border border-indigo-500/15 py-2">
-                        <span className="text-[10px] font-mono font-bold text-indigo-400 tracking-wider">{asset}</span>
+                      <div className="flex items-center justify-center rounded-md bg-indigo-500/10 border border-indigo-500/15 py-1.5 px-1">
+                        <span className="text-[8px] font-mono font-bold text-indigo-400 tracking-wide">{asset}</span>
                       </div>
                       {[0, 1, 2, 3, 4].map((ci) => {
                         const level = matrixData[ri][ci]
