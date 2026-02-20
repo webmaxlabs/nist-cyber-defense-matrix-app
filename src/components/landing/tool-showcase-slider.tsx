@@ -234,11 +234,11 @@ export function ToolShowcaseSlider() {
             Ecosystem
           </p>
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-3">
-            Industry-Leading Security Tools
+            How real tools map to the matrix
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            See how top security platforms map across the Cyber Defense Matrix. Each tool
-            covers different cells &mdash; visualize the coverage gaps.
+            Every security tool covers different cells. See where the overlap is and where
+            the gaps are &mdash; no vendor pitch required.
           </p>
         </div>
 
