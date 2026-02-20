@@ -121,6 +121,7 @@ function ProviderCard({
       {/* Expandable env setup */}
       <button
         onClick={() => setIsOpen((prev) => !prev)}
+        aria-expanded={isOpen}
         className="flex items-center gap-1 mt-4 text-xs text-slate-400 dark:text-slate-500 hover:text-cyan-400 transition-colors"
       >
         <span>View Setup</span>
@@ -158,7 +159,7 @@ function ProviderCard({
 
 function ChatMockup() {
   const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, amount: 0.3 })
+  const isInView = useInView(ref, { amount: 0.3 })
   const [step, setStep] = useState(0)
   const [displayText, setDisplayText] = useState('')
   const [isTyping, setIsTyping] = useState(false)
@@ -209,6 +210,9 @@ function ChatMockup() {
     []
   )
 
+  // Ref to hold runSequence for self-referencing without stale closures
+  const runSequenceRef = useRef<(() => void) | null>(null)
+
   // Run the animation sequence
   const runSequence = useCallback(() => {
     if (!isMounted.current) return
@@ -241,7 +245,7 @@ function ChatMockup() {
                 setIsFadingOut(true)
 
                 scheduleTimeout(() => {
-                  runSequence()
+                  runSequenceRef.current?.()
                 }, 600)
               }, 4000)
             }, 2000)
@@ -251,12 +255,21 @@ function ChatMockup() {
     }, 400)
   }, [clearAllTimeouts, scheduleTimeout, startTypewriter])
 
-  // Trigger on first view
+  // Keep ref in sync
+  runSequenceRef.current = runSequence
+
+  // Start/stop animation based on viewport visibility
   useEffect(() => {
     if (isInView) {
       runSequence()
+    } else {
+      clearAllTimeouts()
+      setStep(0)
+      setDisplayText('')
+      setIsTyping(false)
+      setIsFadingOut(false)
     }
-  }, [isInView, runSequence])
+  }, [isInView, runSequence, clearAllTimeouts])
 
   // Cleanup on unmount
   useEffect(() => {
@@ -370,7 +383,7 @@ function ChatMockup() {
                       <span className="text-[11px] bg-emerald-500/20 text-emerald-400 rounded-md px-3 py-1 cursor-default">
                         Apply
                       </span>
-                      <span className="text-[11px] bg-white/5 text-slate-400 rounded-md px-3 py-1 border border-slate-200 dark:border-white/10 cursor-default">
+                      <span className="text-[11px] bg-slate-100 dark:bg-white/5 text-slate-400 rounded-md px-3 py-1 border border-slate-200 dark:border-white/10 cursor-default">
                         Dismiss
                       </span>
                     </div>
