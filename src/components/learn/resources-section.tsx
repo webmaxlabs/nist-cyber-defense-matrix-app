@@ -1,6 +1,6 @@
 import { ExternalLink, Globe, ShieldCheck, CirclePlay } from 'lucide-react'
 
-const resources = [
+const resources: Array<{ title: string; description: string; url: string; icon: typeof Globe; accent: 'cyan' | 'indigo' | 'violet' }> = [
   {
     title: 'Cyber Defense Matrix Website',
     description: 'Official website by Sounil Yu with the original framework documentation.',
