@@ -31,6 +31,14 @@ const ASSET_ABBREV: Record<string, string> = {
   users: 'USR',
 }
 
+const COST_LABELS: Record<string, string> = {
+  free: 'Free',
+  low: '$',
+  medium: '$$',
+  high: '$$$',
+  enterprise: 'Enterprise',
+}
+
 // ---------------------------------------------------------------------------
 // MiniDefenseMatrix
 // ---------------------------------------------------------------------------
@@ -80,7 +88,7 @@ function MiniDefenseMatrix({
                 key={`${asset}-${fn}`}
                 className={`flex items-center justify-center rounded py-1 ${
                   covered
-                    ? 'bg-emerald-500/20 border border-emerald-500/40 shadow-[0_0_8px_rgba(52,211,153,0.3)]'
+                    ? 'bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-500/40 shadow-[0_0_8px_rgba(52,211,153,0.3)]'
                     : 'border bg-slate-50 border-slate-200 dark:bg-white/[0.02] dark:border-white/5'
                 }`}
               >
@@ -115,6 +123,9 @@ function ToolCard({ tool }: { tool: SecurityToolData }) {
         </div>
         <span className="shrink-0 text-[10px] bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 rounded-full px-2.5 py-0.5">
           {tool.category}
+        </span>
+        <span className="text-[10px] bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-full px-2.5 py-0.5">
+          {COST_LABELS[tool.costRange] || tool.costRange}
         </span>
       </div>
 
@@ -176,41 +187,36 @@ const cardVariants = {
 }
 
 // ---------------------------------------------------------------------------
-// ToolShowcaseSlider (default export)
+// ToolShowcaseSlider
 // ---------------------------------------------------------------------------
 
-export default function ToolShowcaseSlider() {
+export function ToolShowcaseSlider() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  const [tick, setTick] = useState(0)
 
   // Auto-advance timer
   useEffect(() => {
     if (isPaused) return
-
     const interval = setInterval(() => {
       setCurrentIndex(prev => (prev + 1) % SHOWCASE_TOOLS.length)
     }, 4000)
-
     return () => clearInterval(interval)
-  }, [isPaused])
+  }, [isPaused, tick])
 
   const goToPrev = useCallback(() => {
     setCurrentIndex(prev => (prev - 1 + SHOWCASE_TOOLS.length) % SHOWCASE_TOOLS.length)
-    // Briefly pause to restart the timer cycle
-    setIsPaused(true)
-    setTimeout(() => setIsPaused(false), 100)
+    setTick(t => t + 1)
   }, [])
 
   const goToNext = useCallback(() => {
     setCurrentIndex(prev => (prev + 1) % SHOWCASE_TOOLS.length)
-    setIsPaused(true)
-    setTimeout(() => setIsPaused(false), 100)
+    setTick(t => t + 1)
   }, [])
 
-  const goToIndex = useCallback((i: number) => {
-    setCurrentIndex(i)
-    setIsPaused(true)
-    setTimeout(() => setIsPaused(false), 100)
+  const goToIndex = useCallback((index: number) => {
+    setCurrentIndex(index)
+    setTick(t => t + 1)
   }, [])
 
   const arrowClasses =
