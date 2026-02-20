@@ -12,10 +12,13 @@ import { useChat } from '@/lib/hooks/use-chat'
 interface ChatPanelProps {
   onClose: () => void
   projectContext?: Record<string, unknown> | null
+  conversationId?: string | null
+  projectIds?: string[]
+  onConversationCreated?: (id: string) => void
 }
 
-export function ChatPanel({ onClose, projectContext }: ChatPanelProps) {
-  const { messages, isLoading, sendMessage, clearMessages, stopGeneration } = useChat({ projectContext })
+export function ChatPanel({ onClose, conversationId = null, projectIds = [], onConversationCreated }: ChatPanelProps) {
+  const { messages, isLoading, sendMessage, clearMessages, stopGeneration } = useChat({ conversationId, projectIds, onConversationCreated })
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {

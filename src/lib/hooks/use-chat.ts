@@ -1,39 +1,62 @@
 'use client'
 
 import { useState, useCallback, useRef } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
+import type { ChatProposal } from '@/lib/supabase/types'
 
-interface ChatMessage {
+export interface ChatMessageWithProposals {
   id: string
   role: 'user' | 'assistant'
   content: string
+  proposals: ChatProposal[]
+  db_message_id?: string
 }
 
 interface UseChatOptions {
-  projectContext?: Record<string, unknown> | null
+  conversationId: string | null
+  projectIds: string[]
+  onConversationCreated?: (id: string) => void
 }
 
-export function useChat({ projectContext }: UseChatOptions = {}) {
-  const [messages, setMessages] = useState<ChatMessage[]>([])
+export function useChat({ conversationId, projectIds, onConversationCreated }: UseChatOptions) {
+  const [messages, setMessages] = useState<ChatMessageWithProposals[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const abortRef = useRef<AbortController | null>(null)
+  const queryClient = useQueryClient()
+
+  const loadMessages = useCallback((
+    dbMessages: Array<{ id: string; role: string; content: string; proposals: ChatProposal[] | null }>
+  ) => {
+    setMessages(
+      dbMessages
+        .filter((m) => m.role !== 'system')
+        .map((m) => ({
+          id: m.id,
+          role: m.role as 'user' | 'assistant',
+          content: m.content,
+          proposals: m.proposals || [],
+          db_message_id: m.id,
+        }))
+    )
+  }, [])
 
   const sendMessage = useCallback(async (content: string) => {
-    const userMessage: ChatMessage = {
+    const userMessage: ChatMessageWithProposals = {
       id: crypto.randomUUID(),
       role: 'user',
       content,
+      proposals: [],
     }
 
-    setMessages((prev) => [...prev, userMessage])
-    setIsLoading(true)
-
-    const assistantMessage: ChatMessage = {
+    const assistantMessage: ChatMessageWithProposals = {
       id: crypto.randomUUID(),
       role: 'assistant',
       content: '',
+      proposals: [],
     }
 
-    setMessages((prev) => [...prev, assistantMessage])
+    setMessages((prev) => [...prev, userMessage, assistantMessage])
+    setIsLoading(true)
 
     try {
       abortRef.current = new AbortController()
@@ -46,7 +69,8 @@ export function useChat({ projectContext }: UseChatOptions = {}) {
             role: m.role,
             content: m.content,
           })),
-          projectContext,
+          conversationId,
+          projectIds,
         }),
         signal: abortRef.current.signal,
       })
@@ -68,23 +92,45 @@ export function useChat({ projectContext }: UseChatOptions = {}) {
         buffer = lines.pop() || ''
 
         for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            const data = line.slice(6).trim()
-            if (data === '[DONE]') continue
-            try {
-              const parsed = JSON.parse(data)
-              if (parsed.content) {
-                setMessages((prev) =>
-                  prev.map((m) =>
-                    m.id === assistantMessage.id
-                      ? { ...m, content: m.content + parsed.content }
-                      : m
-                  )
+          if (!line.startsWith('data: ')) continue
+          const data = line.slice(6).trim()
+          if (data === '[DONE]') continue
+
+          try {
+            const parsed = JSON.parse(data)
+
+            if (parsed.type === 'text' && parsed.content) {
+              setMessages((prev) =>
+                prev.map((m) =>
+                  m.id === assistantMessage.id
+                    ? { ...m, content: m.content + parsed.content }
+                    : m
                 )
+              )
+            } else if (parsed.type === 'proposal' && parsed.proposal) {
+              setMessages((prev) =>
+                prev.map((m) =>
+                  m.id === assistantMessage.id
+                    ? { ...m, proposals: [...m.proposals, parsed.proposal] }
+                    : m
+                )
+              )
+            } else if (parsed.type === 'error') {
+              setMessages((prev) =>
+                prev.map((m) =>
+                  m.id === assistantMessage.id
+                    ? { ...m, content: m.content + `\n\n*Error: ${parsed.message}*` }
+                    : m
+                )
+              )
+            } else if (parsed.type === 'done' && parsed.conversationId) {
+              if (onConversationCreated) {
+                onConversationCreated(parsed.conversationId)
               }
-            } catch {
-              // Skip malformed
+              queryClient.invalidateQueries({ queryKey: ['conversations'] })
             }
+          } catch {
+            // Skip malformed
           }
         }
       }
@@ -102,7 +148,24 @@ export function useChat({ projectContext }: UseChatOptions = {}) {
       setIsLoading(false)
       abortRef.current = null
     }
-  }, [messages, projectContext])
+  }, [messages, conversationId, projectIds, onConversationCreated, queryClient])
+
+  const updateProposalLocally = useCallback((messageId: string, proposalId: string, status: ChatProposal['status']) => {
+    setMessages((prev) =>
+      prev.map((m) =>
+        m.id === messageId || m.db_message_id === messageId
+          ? {
+              ...m,
+              proposals: m.proposals.map((p) =>
+                p.id === proposalId
+                  ? { ...p, status, applied_at: status === 'applied' ? new Date().toISOString() : p.applied_at }
+                  : p
+              ),
+            }
+          : m
+      )
+    )
+  }, [])
 
   const clearMessages = useCallback(() => {
     setMessages([])
@@ -116,7 +179,9 @@ export function useChat({ projectContext }: UseChatOptions = {}) {
     messages,
     isLoading,
     sendMessage,
+    loadMessages,
     clearMessages,
     stopGeneration,
+    updateProposalLocally,
   }
 }
