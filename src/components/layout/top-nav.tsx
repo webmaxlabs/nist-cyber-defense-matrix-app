@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
-import { Moon, Shield, Sun } from 'lucide-react'
+import { Github, Moon, Shield, Sun } from 'lucide-react'
 import { NavLinks } from './nav-links'
 import { UserMenu } from './user-menu'
 import { MobileNav } from './mobile-nav'
@@ -39,6 +39,15 @@ export function TopNav() {
         </div>
 
         <div className="flex items-center gap-3">
+          <a
+            href="https://github.com/webmaxlabs/nist-cyber-defense-matrix-app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
+            title="View on GitHub"
+          >
+            <Github className="h-4 w-4 text-slate-500 dark:text-slate-400" />
+          </a>
           {mounted && (
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
