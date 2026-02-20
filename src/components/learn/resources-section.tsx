@@ -1,4 +1,4 @@
-import { ExternalLink, Globe, ShieldCheck, BookOpen } from 'lucide-react'
+import { ExternalLink, Globe, ShieldCheck, CirclePlay } from 'lucide-react'
 
 const resources = [
   {
@@ -17,9 +17,9 @@ const resources = [
   },
   {
     title: 'Understanding the Cyber Defense Matrix',
-    description: 'Comprehensive guide to using the CDM for security program management by Sounil Yu.',
-    url: 'https://cyberdefensematrix.com',
-    icon: BookOpen,
+    description: 'Video playlist by Sounil Yu explaining the CDM framework, its applications, and how to use it.',
+    url: 'https://www.youtube.com/playlist?list=PL-ipbEE7_72sVzb3ytf2bY88wdT2dnEtf',
+    icon: CirclePlay,
     accent: 'violet',
   },
 ]
