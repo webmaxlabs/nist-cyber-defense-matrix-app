@@ -1,7 +1,9 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Shield } from 'lucide-react'
+import { useTheme } from 'next-themes'
+import { Moon, Shield, Sun } from 'lucide-react'
 import { NavLinks } from './nav-links'
 import { UserMenu } from './user-menu'
 import { MobileNav } from './mobile-nav'
@@ -10,6 +12,10 @@ import { Button } from '@/components/ui/button'
 
 export function TopNav() {
   const { user, loading } = useAuth()
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
 
   return (
     <header className="sticky top-0 z-50 w-full nav-glass">
@@ -33,6 +39,20 @@ export function TopNav() {
         </div>
 
         <div className="flex items-center gap-3">
+          {mounted && (
+            <button
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
+              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {theme === 'dark' ? (
+                <Sun className="h-4 w-4 text-slate-400" />
+              ) : (
+                <Moon className="h-4 w-4 text-slate-500" />
+              )}
+            </button>
+          )}
+
           {!loading && !user && (
             <Link href="/login">
               <Button size="sm" className="bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 hover:bg-cyan-500/20 hover:border-cyan-500/30 font-medium">
