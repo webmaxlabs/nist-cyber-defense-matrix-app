@@ -1,5 +1,6 @@
 import { HeroSection } from '@/components/landing/hero-section'
 import { FeatureCards } from '@/components/landing/feature-cards'
+import { ToolShowcaseSlider } from '@/components/landing/tool-showcase-slider'
 import { TopNav } from '@/components/layout/top-nav'
 import { Shield } from 'lucide-react'
 
@@ -9,6 +10,7 @@ export default function HomePage() {
       <TopNav />
       <HeroSection />
       <FeatureCards />
+      <ToolShowcaseSlider />
 
       {/* How It Works */}
       <section className="py-24 relative border-t border-white/5">
