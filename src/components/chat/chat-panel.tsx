@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useEffect } from 'react'
-import { X, Trash2, Shield } from 'lucide-react'
+import { X, Trash2, Shield, Maximize2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { ChatMessage } from './chat-message'
@@ -15,9 +15,10 @@ interface ChatPanelProps {
   conversationId?: string | null
   projectIds?: string[]
   onConversationCreated?: (id: string) => void
+  onExpandToSidebar?: () => void
 }
 
-export function ChatPanel({ onClose, conversationId = null, projectIds = [], onConversationCreated }: ChatPanelProps) {
+export function ChatPanel({ onClose, conversationId = null, projectIds = [], onConversationCreated, onExpandToSidebar }: ChatPanelProps) {
   const { messages, isLoading, sendMessage, clearMessages, stopGeneration } = useChat({ conversationId, projectIds, onConversationCreated })
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -43,14 +44,27 @@ export function ChatPanel({ onClose, conversationId = null, projectIds = [], onC
             size="icon"
             className="h-7 w-7 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/5"
             onClick={clearMessages}
+            title="Clear messages"
           >
             <Trash2 className="h-3.5 w-3.5" />
           </Button>
+          {onExpandToSidebar && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-7 w-7 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/5"
+              onClick={onExpandToSidebar}
+              title="Expand to sidebar"
+            >
+              <Maximize2 className="h-3.5 w-3.5" />
+            </Button>
+          )}
           <Button
             variant="ghost"
             size="icon"
             className="h-7 w-7 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/5"
             onClick={onClose}
+            title="Close"
           >
             <X className="h-3.5 w-3.5" />
           </Button>
