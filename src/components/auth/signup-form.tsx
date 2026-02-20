@@ -64,7 +64,7 @@ export function SignupForm() {
 
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
-            <Separator className="bg-white/5" />
+            <Separator className="bg-slate-200 dark:bg-white/5" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
             <span className="bg-card px-2 text-muted-foreground">Or</span>
@@ -73,37 +73,37 @@ export function SignupForm() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name" className="text-slate-300">Full Name</Label>
+            <Label htmlFor="name" className="text-slate-600 dark:text-slate-300">Full Name</Label>
             <Input
               id="name"
               placeholder="Your name"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="bg-white/5 border-white/10 text-foreground placeholder:text-slate-500 focus:border-cyan-500/40 focus:ring-cyan-500/20"
+              className="bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-foreground placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-cyan-500/40 focus:ring-cyan-500/20"
               required
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-slate-300">Email</Label>
+            <Label htmlFor="email" className="text-slate-600 dark:text-slate-300">Email</Label>
             <Input
               id="email"
               type="email"
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="bg-white/5 border-white/10 text-foreground placeholder:text-slate-500 focus:border-cyan-500/40 focus:ring-cyan-500/20"
+              className="bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-foreground placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-cyan-500/40 focus:ring-cyan-500/20"
               required
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password" className="text-slate-300">Password</Label>
+            <Label htmlFor="password" className="text-slate-600 dark:text-slate-300">Password</Label>
             <Input
               id="password"
               type="password"
               placeholder="Min 6 characters"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-white/5 border-white/10 text-foreground placeholder:text-slate-500 focus:border-cyan-500/40 focus:ring-cyan-500/20"
+              className="bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-foreground placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-cyan-500/40 focus:ring-cyan-500/20"
               minLength={6}
               required
             />

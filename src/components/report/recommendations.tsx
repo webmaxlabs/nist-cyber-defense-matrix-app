@@ -41,7 +41,7 @@ export function Recommendations({ assessments }: RecommendationsProps) {
             <span className="flex h-6 w-6 items-center justify-center rounded-full bg-cyan-500/15 text-xs font-mono font-bold text-cyan-400 shrink-0 print:bg-blue-100 print:text-blue-700">
               {index + 1}
             </span>
-            <p className="text-sm text-slate-300 print:text-gray-700">{rec}</p>
+            <p className="text-sm text-slate-600 dark:text-slate-300 print:text-gray-700">{rec}</p>
           </li>
         ))}
       </ol>

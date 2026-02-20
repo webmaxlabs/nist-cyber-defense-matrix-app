@@ -25,9 +25,9 @@ export function ChatPanel({ onClose, projectContext }: ChatPanelProps) {
   }, [messages])
 
   return (
-    <div className="flex flex-col h-full glass rounded-xl border border-white/5 overflow-hidden glow-cyan-sm">
+    <div className="flex flex-col h-full glass rounded-xl border border-slate-200 dark:border-white/5 overflow-hidden glow-cyan-sm">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-white/5 bg-cyan-500/5">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200 dark:border-white/5 bg-cyan-500/5">
         <div className="flex items-center gap-2">
           <div className="flex h-6 w-6 items-center justify-center rounded-md bg-cyan-500/15 border border-cyan-500/20">
             <Shield className="h-3 w-3 text-cyan-400" />
@@ -38,7 +38,7 @@ export function ChatPanel({ onClose, projectContext }: ChatPanelProps) {
           <Button
             variant="ghost"
             size="icon"
-            className="h-7 w-7 text-slate-400 hover:text-slate-200 hover:bg-white/5"
+            className="h-7 w-7 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/5"
             onClick={clearMessages}
           >
             <Trash2 className="h-3.5 w-3.5" />
@@ -46,7 +46,7 @@ export function ChatPanel({ onClose, projectContext }: ChatPanelProps) {
           <Button
             variant="ghost"
             size="icon"
-            className="h-7 w-7 text-slate-400 hover:text-slate-200 hover:bg-white/5"
+            className="h-7 w-7 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/5"
             onClick={onClose}
           >
             <X className="h-3.5 w-3.5" />

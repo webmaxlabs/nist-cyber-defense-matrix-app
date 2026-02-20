@@ -34,7 +34,7 @@ export function ExecutiveSummary({ assessments, toolMappings }: ExecutiveSummary
           <p className="text-xs text-purple-400/70 print:text-purple-600">Tools Mapped</p>
         </div>
       </div>
-      <p className="text-sm text-slate-300 print:text-gray-600">
+      <p className="text-sm text-slate-600 dark:text-slate-300 print:text-gray-600">
         This assessment covers {assessments.length} of 25 cells in the Cyber Defense Matrix,
         with {mature} cells achieving mature status (Level 4+) and {gaps.length} cells
         identified as critical gaps requiring immediate attention.

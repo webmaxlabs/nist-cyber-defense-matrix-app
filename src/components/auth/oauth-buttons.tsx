@@ -22,7 +22,7 @@ export function OAuthButtons() {
     <div className="space-y-3">
       <Button
         variant="outline"
-        className="w-full gap-2 h-11 bg-white/5 border-white/10 text-slate-300 hover:bg-white/10 hover:text-foreground hover:border-white/20 transition-all"
+        className="w-full gap-2 h-11 bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-white/10 hover:text-foreground hover:border-slate-300 dark:hover:border-white/20 transition-all"
         onClick={handleGoogleSignIn}
         disabled={loading}
       >

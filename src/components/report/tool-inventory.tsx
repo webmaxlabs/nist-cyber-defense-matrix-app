@@ -23,20 +23,20 @@ export function ToolInventory({ toolMappings }: ToolInventoryProps) {
       ) : (
         <table className="w-full text-sm border-collapse">
           <thead>
-            <tr className="bg-white/[0.02] print:bg-gray-50">
-              <th className="border border-white/10 p-2 text-left text-slate-300 print:border-gray-300 print:text-black">Tool</th>
-              <th className="border border-white/10 p-2 text-left text-slate-300 print:border-gray-300 print:text-black">Coverage</th>
-              <th className="border border-white/10 p-2 text-center text-slate-300 print:border-gray-300 print:text-black">Status</th>
+            <tr className="bg-slate-50 dark:bg-white/[0.02] print:bg-gray-50">
+              <th className="border border-slate-200 dark:border-white/10 p-2 text-left text-slate-600 dark:text-slate-300 print:border-gray-300 print:text-black">Tool</th>
+              <th className="border border-slate-200 dark:border-white/10 p-2 text-left text-slate-600 dark:text-slate-300 print:border-gray-300 print:text-black">Coverage</th>
+              <th className="border border-slate-200 dark:border-white/10 p-2 text-center text-slate-600 dark:text-slate-300 print:border-gray-300 print:text-black">Status</th>
             </tr>
           </thead>
           <tbody>
             {Object.values(toolGroups).map((group) => (
               <tr key={group.name}>
-                <td className="border border-white/10 p-2 font-medium text-foreground print:border-gray-300 print:text-black">{group.name}</td>
-                <td className="border border-white/10 p-2 text-slate-300 print:border-gray-300 print:text-gray-600">
+                <td className="border border-slate-200 dark:border-white/10 p-2 font-medium text-foreground print:border-gray-300 print:text-black">{group.name}</td>
+                <td className="border border-slate-200 dark:border-white/10 p-2 text-slate-600 dark:text-slate-300 print:border-gray-300 print:text-gray-600">
                   {group.mappings.map((m) => `${ASSET_LABELS[m.cell_row]}/${NIST_LABELS[m.cell_column]}`).join(', ')}
                 </td>
-                <td className="border border-white/10 p-2 text-center capitalize text-slate-300 print:border-gray-300 print:text-black">
+                <td className="border border-slate-200 dark:border-white/10 p-2 text-center capitalize text-slate-600 dark:text-slate-300 print:border-gray-300 print:text-black">
                   {group.mappings[0].implementation_status}
                 </td>
               </tr>
