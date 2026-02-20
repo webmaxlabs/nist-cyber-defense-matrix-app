@@ -17,7 +17,7 @@ const actionColors: Record<string, string> = {
 }
 
 export function ActivityFeedItem({ entry }: ActivityFeedItemProps) {
-  const colorClass = actionColors[entry.action_type] || 'bg-white/5 text-slate-400 border-white/10'
+  const colorClass = actionColors[entry.action_type] || 'bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-white/10'
 
   return (
     <div className="flex items-start gap-3 py-2.5">
@@ -25,8 +25,8 @@ export function ActivityFeedItem({ entry }: ActivityFeedItemProps) {
         {entry.action_type.charAt(0).toUpperCase()}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm text-slate-300 line-clamp-2">{entry.description || `${entry.action_type} ${entry.entity_type}`}</p>
-        <p className="text-xs text-slate-600 mt-0.5 font-mono">{timeAgo(entry.created_at)}</p>
+        <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2">{entry.description || `${entry.action_type} ${entry.entity_type}`}</p>
+        <p className="text-xs text-slate-400 dark:text-slate-600 mt-0.5 font-mono">{timeAgo(entry.created_at)}</p>
       </div>
     </div>
   )

@@ -27,11 +27,11 @@ export function ProjectDropdown({ projectId, projectName }: ProjectDropdownProps
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-500 hover:text-slate-300 hover:bg-white/5" onClick={(e) => e.preventDefault()}>
+          <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5" onClick={(e) => e.preventDefault()}>
             <MoreVertical className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="glass border-white/10">
+        <DropdownMenuContent align="end" className="glass border-slate-200 dark:border-white/10">
           <DropdownMenuItem onClick={(e) => { e.preventDefault(); setArchiveDialogOpen(true) }}>
             <Archive className="mr-2 h-4 w-4" />
             Archive

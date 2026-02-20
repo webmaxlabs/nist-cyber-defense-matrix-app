@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 
 export function EmptyState() {
   return (
-    <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-white/10 bg-white/[0.01] px-6 py-16">
+    <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-white/[0.01] px-6 py-16">
       <div className="flex h-14 w-14 items-center justify-center rounded-full bg-cyan-500/10 border border-cyan-500/20 mb-4">
         <Shield className="h-7 w-7 text-cyan-400" />
       </div>

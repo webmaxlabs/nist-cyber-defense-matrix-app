@@ -66,13 +66,13 @@ export function LearnTab({ row, column }: LearnTabProps) {
         <>
           <div>
             <h4 className="font-display font-semibold text-foreground mb-1">{content.title}</h4>
-            <p className="text-sm text-slate-300">{content.description}</p>
+            <p className="text-sm text-slate-600 dark:text-slate-300">{content.description}</p>
           </div>
           <div>
             <h5 className="text-sm font-display font-medium text-foreground mb-2">Best Practices</h5>
             <ul className="space-y-1.5">
               {content.practices.map((practice) => (
-                <li key={practice} className="flex items-start gap-2 text-sm text-slate-300">
+                <li key={practice} className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
                   <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-cyan-500 shrink-0" />
                   {practice}
                 </li>
@@ -81,11 +81,11 @@ export function LearnTab({ row, column }: LearnTabProps) {
           </div>
         </>
       ) : (
-        <div className="rounded-lg bg-white/[0.02] border border-white/5 p-6 text-center">
+        <div className="rounded-lg bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/5 p-6 text-center">
           <p className="text-sm text-muted-foreground">
             Educational content for this cell will be available soon.
           </p>
-          <p className="text-xs text-slate-600 mt-1">
+          <p className="text-xs text-slate-400 dark:text-slate-600 mt-1">
             Focus on {NIST_LABELS[column].toLowerCase()}ing your {ASSET_LABELS[row].toLowerCase()} assets.
           </p>
         </div>

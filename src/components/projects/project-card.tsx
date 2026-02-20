@@ -30,7 +30,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <h3 className="font-display font-semibold text-foreground mb-1 line-clamp-1">{project.name}</h3>
         <p className="text-sm text-muted-foreground mb-4 line-clamp-1">{project.description || 'No description'}</p>
 
-        <div className="flex items-center justify-between text-xs text-slate-500">
+        <div className="flex items-center justify-between text-xs text-slate-400 dark:text-slate-500">
           <span className="font-mono">Updated {timeAgo(project.updated_at)}</span>
           <ArrowRight className="h-4 w-4 text-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity" />
         </div>

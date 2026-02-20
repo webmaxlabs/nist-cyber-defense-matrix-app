@@ -49,7 +49,7 @@ export function GettingStarted({ assessments, toolMappings }: GettingStartedProp
             {step.done ? (
               <CheckCircle2 className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" />
             ) : (
-              <Circle className="h-4 w-4 text-slate-600 mt-0.5 shrink-0" />
+              <Circle className="h-4 w-4 text-slate-400 dark:text-slate-600 mt-0.5 shrink-0" />
             )}
             <div>
               <p className="text-xs font-medium text-foreground">{step.label}</p>

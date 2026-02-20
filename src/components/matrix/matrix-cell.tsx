@@ -29,7 +29,7 @@ export function MatrixCell({ assessment, toolCount, onClick }: MatrixCellProps) 
       <span className={cn('font-mono text-lg font-bold', maturity.text)}>
         {level > 0 ? `L${level}` : '\u2014'}
       </span>
-      <span className={cn('text-[10px] mt-0.5 font-medium', level > 0 ? maturity.text : 'text-slate-600')}>
+      <span className={cn('text-[10px] mt-0.5 font-medium', level > 0 ? maturity.text : 'text-slate-400 dark:text-slate-600')}>
         {maturity.label}
       </span>
 

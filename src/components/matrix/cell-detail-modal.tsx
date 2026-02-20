@@ -29,17 +29,17 @@ export function CellDetailModal({
 }: CellDetailModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg max-h-[85vh] overflow-y-auto glass border-white/10">
+      <DialogContent className="max-w-lg max-h-[85vh] overflow-y-auto glass border-slate-200 dark:border-white/10">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 font-display">
             <span className="text-indigo-400">{ASSET_LABELS[row]}</span>
-            <span className="text-slate-600">/</span>
+            <span className="text-slate-400 dark:text-slate-600">/</span>
             <span className="text-cyan-400">{NIST_LABELS[column]}</span>
           </DialogTitle>
         </DialogHeader>
 
         <Tabs defaultValue="assessment" className="mt-2">
-          <TabsList className="grid w-full grid-cols-3 bg-white/5">
+          <TabsList className="grid w-full grid-cols-3 bg-slate-100 dark:bg-white/5">
             <TabsTrigger value="assessment" className="data-[state=active]:bg-cyan-500/10 data-[state=active]:text-cyan-400">Assessment</TabsTrigger>
             <TabsTrigger value="tools" className="data-[state=active]:bg-cyan-500/10 data-[state=active]:text-cyan-400">
               Tools ({toolMappings.length})

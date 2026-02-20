@@ -33,18 +33,18 @@ export function ToolPickerDialog({ open, onOpenChange, onSelect, existingToolIds
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md glass border-white/10">
+      <DialogContent className="max-w-md glass border-slate-200 dark:border-white/10">
         <DialogHeader>
           <DialogTitle className="font-display">Add Tool</DialogTitle>
         </DialogHeader>
 
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 dark:text-slate-500" />
           <Input
             placeholder="Search tools..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-9 bg-white/5 border-white/10 text-foreground placeholder:text-slate-500 focus:border-cyan-500/40"
+            className="pl-9 bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-foreground placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-cyan-500/40"
           />
         </div>
 

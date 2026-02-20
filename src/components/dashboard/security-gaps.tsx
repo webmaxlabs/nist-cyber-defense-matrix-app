@@ -33,28 +33,28 @@ export function SecurityGaps({ assessments }: SecurityGapsProps) {
       ) : (
         <div className="space-y-2 max-h-[300px] overflow-y-auto">
           {gaps.map((gap) => (
-            <div key={gap.id} className={`flex items-center justify-between rounded-lg border ${gapBorderColors[gap.maturity_level] || 'border-white/5'} bg-white/[0.02] p-3`}>
+            <div key={gap.id} className={`flex items-center justify-between rounded-lg border ${gapBorderColors[gap.maturity_level] || 'border-slate-200 dark:border-white/5'} bg-slate-50 dark:bg-white/[0.03] p-3`}>
               <div>
                 <p className="text-sm font-medium text-foreground">
                   {ASSET_LABELS[gap.cell_row]} / {NIST_LABELS[gap.cell_column]}
                 </p>
                 <p className="text-xs text-muted-foreground">Needs improvement</p>
               </div>
-              <Badge className={`${gapTextColors[gap.maturity_level] || 'text-slate-400 bg-white/5 border-white/10'} border text-xs`}>
+              <Badge className={`${gapTextColors[gap.maturity_level] || 'text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10'} border text-xs`}>
                 Level {gap.maturity_level}
               </Badge>
             </div>
           ))}
 
           {unassessed.slice(0, 5).map((cell) => (
-            <div key={`${cell.row}-${cell.column}`} className="flex items-center justify-between rounded-lg border border-dashed border-white/8 bg-white/[0.01] p-3">
+            <div key={`${cell.row}-${cell.column}`} className="flex items-center justify-between rounded-lg border border-dashed border-slate-200 dark:border-white/8 bg-slate-50/50 dark:bg-white/[0.01] p-3">
               <div>
                 <p className="text-sm font-medium text-foreground">
                   {ASSET_LABELS[cell.row]} / {NIST_LABELS[cell.column]}
                 </p>
                 <p className="text-xs text-muted-foreground">Not yet assessed</p>
               </div>
-              <Badge variant="outline" className="text-slate-500 border-white/10 text-xs">Pending</Badge>
+              <Badge variant="outline" className="text-slate-400 dark:text-slate-500 border-slate-200 dark:border-white/10 text-xs">Pending</Badge>
             </div>
           ))}
         </div>

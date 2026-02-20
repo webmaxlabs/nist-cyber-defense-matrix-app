@@ -19,7 +19,7 @@ export function MaturitySelector({ value, onChange }: MaturitySelectorProps) {
             'w-full flex items-center gap-3 rounded-lg border p-3 text-left transition-all',
             value === level.level
               ? `${level.bgColor} border-current text-white`
-              : 'border-white/10 hover:border-white/20 bg-white/[0.02] hover:bg-white/[0.04]'
+              : 'border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 bg-slate-50 dark:bg-white/[0.03] hover:bg-slate-100 dark:hover:bg-white/[0.04]'
           )}
         >
           <span

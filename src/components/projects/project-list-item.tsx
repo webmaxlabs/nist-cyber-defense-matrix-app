@@ -28,7 +28,7 @@ export function ProjectListItem({ project }: ProjectListItemProps) {
           <CoverageBadge percentage={project.coverage_percentage} size="sm" />
         </div>
 
-        <span className="hidden md:block text-xs text-slate-500 font-mono whitespace-nowrap">
+        <span className="hidden md:block text-xs text-slate-400 dark:text-slate-500 font-mono whitespace-nowrap">
           Updated {timeAgo(project.updated_at)}
         </span>
 

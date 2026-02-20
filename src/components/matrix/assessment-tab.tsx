@@ -42,12 +42,12 @@ export function AssessmentTab({ projectId, row, column, assessment }: Assessment
   return (
     <div className="space-y-4">
       <div>
-        <Label className="text-sm font-medium text-slate-300 mb-2 block">Maturity Level</Label>
+        <Label className="text-sm font-medium text-slate-600 dark:text-slate-300 mb-2 block">Maturity Level</Label>
         <MaturitySelector value={maturityLevel} onChange={setMaturityLevel} />
       </div>
 
       <div>
-        <Label htmlFor="justification" className="text-sm font-medium text-slate-300 mb-2 block">
+        <Label htmlFor="justification" className="text-sm font-medium text-slate-600 dark:text-slate-300 mb-2 block">
           Justification
         </Label>
         <Textarea
@@ -56,7 +56,7 @@ export function AssessmentTab({ projectId, row, column, assessment }: Assessment
           value={justification}
           onChange={(e) => setJustification(e.target.value)}
           rows={3}
-          className="bg-white/5 border-white/10 text-foreground placeholder:text-slate-500 focus:border-cyan-500/40"
+          className="bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-foreground placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-cyan-500/40"
         />
       </div>
 

@@ -41,14 +41,14 @@ export function ToolsTab({ projectId, row, column, toolMappings }: ToolsTabProps
         <p className="text-sm text-muted-foreground">
           {toolMappings.length} tool{toolMappings.length !== 1 ? 's' : ''} mapped
         </p>
-        <Button size="sm" variant="outline" onClick={() => setPickerOpen(true)} className="gap-1.5 border-white/10 text-slate-300 hover:bg-white/5 hover:border-cyan-500/20 hover:text-cyan-400">
+        <Button size="sm" variant="outline" onClick={() => setPickerOpen(true)} className="gap-1.5 border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:border-cyan-500/20 hover:text-cyan-400">
           <Plus className="h-3.5 w-3.5" />
           Add Tool
         </Button>
       </div>
 
       {toolMappings.length === 0 ? (
-        <div className="rounded-lg border border-dashed border-white/10 p-6 text-center">
+        <div className="rounded-lg border border-dashed border-slate-200 dark:border-white/10 p-6 text-center">
           <p className="text-sm text-muted-foreground">No tools mapped to this cell yet</p>
         </div>
       ) : (
@@ -56,7 +56,7 @@ export function ToolsTab({ projectId, row, column, toolMappings }: ToolsTabProps
           {toolMappings.map((mapping) => (
             <div
               key={mapping.id}
-              className="flex items-center justify-between rounded-lg border border-white/10 bg-white/[0.02] p-3"
+              className="flex items-center justify-between rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03] p-3"
             >
               <div className="flex items-center gap-3">
                 <div className="flex h-8 w-8 items-center justify-center rounded bg-indigo-500/10 border border-indigo-500/20 text-xs font-mono font-bold text-indigo-400">
@@ -66,7 +66,7 @@ export function ToolsTab({ projectId, row, column, toolMappings }: ToolsTabProps
                   <p className="text-sm font-medium text-foreground">
                     {mapping.tool?.vendor_name || 'Unknown Tool'}
                   </p>
-                  <Badge variant="secondary" className="text-[10px] bg-white/5 text-slate-400 border border-white/10">
+                  <Badge variant="secondary" className="text-[10px] bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-white/10">
                     {mapping.implementation_status}
                   </Badge>
                 </div>
@@ -74,7 +74,7 @@ export function ToolsTab({ projectId, row, column, toolMappings }: ToolsTabProps
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 text-slate-500 hover:text-red-400 hover:bg-red-500/5"
+                className="h-8 w-8 text-slate-400 dark:text-slate-500 hover:text-red-400 hover:bg-red-500/5"
                 onClick={() => handleRemoveTool(mapping.id)}
                 disabled={removeMutation.isPending}
               >

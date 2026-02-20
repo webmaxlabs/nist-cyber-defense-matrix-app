@@ -119,14 +119,14 @@ export function HeroSection() {
                 </Button>
               </Link>
               <Link href="/learn">
-                <Button size="lg" variant="outline" className="border-slate-700/50 text-slate-300 hover:bg-white/5 hover:border-cyan-500/30 hover:text-cyan-300 h-12 px-8 transition-all">
+                <Button size="lg" variant="outline" className="border-slate-300 dark:border-slate-700/50 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:border-cyan-500/30 hover:text-cyan-300 h-12 px-8 transition-all">
                   Learn More
                 </Button>
               </Link>
             </div>
 
             {/* Trust indicators */}
-            <div className="flex items-center gap-8 mt-12 pt-8 border-t border-white/5">
+            <div className="flex items-center gap-8 mt-12 pt-8 border-t border-slate-200 dark:border-white/5">
               {[
                 { value: '5x5', label: 'Defense Matrix' },
                 { value: '25', label: 'Security Cells' },
@@ -134,7 +134,7 @@ export function HeroSection() {
               ].map((stat) => (
                 <div key={stat.label}>
                   <p className="font-display text-2xl font-bold text-cyan-400">{stat.value}</p>
-                  <p className="text-xs text-slate-500 mt-0.5">{stat.label}</p>
+                  <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -153,7 +153,7 @@ export function HeroSection() {
 
               <div className="relative glass rounded-2xl p-6 gradient-border-animated">
                 {/* Matrix header */}
-                <div className="flex items-center gap-3 mb-5 pb-4 border-b border-white/5">
+                <div className="flex items-center gap-3 mb-5 pb-4 border-b border-slate-200 dark:border-white/5">
                   <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-500/10 border border-cyan-500/20">
                     <Shield className="h-4 w-4 text-cyan-400" />
                   </div>
@@ -215,7 +215,7 @@ export function HeroSection() {
                 </div>
 
                 {/* Bottom stats */}
-                <div className="flex items-center justify-between mt-5 pt-4 border-t border-white/5">
+                <div className="flex items-center justify-between mt-5 pt-4 border-t border-slate-200 dark:border-white/5">
                   <div className="flex items-center gap-4">
                     {[
                       { label: 'Score', value: '78%', color: 'text-cyan-400' },
@@ -224,11 +224,11 @@ export function HeroSection() {
                     ].map((s) => (
                       <div key={s.label} className="text-center">
                         <p className={`text-sm font-mono font-bold ${s.color}`}>{s.value}</p>
-                        <p className="text-[9px] text-slate-500 uppercase tracking-wider">{s.label}</p>
+                        <p className="text-[9px] text-slate-400 dark:text-slate-500 uppercase tracking-wider">{s.label}</p>
                       </div>
                     ))}
                   </div>
-                  <div className="text-[9px] text-slate-600 font-mono">v2.0</div>
+                  <div className="text-[9px] text-slate-400 dark:text-slate-600 font-mono">v2.0</div>
                 </div>
               </div>
             </div>

@@ -21,7 +21,7 @@ export function ContinuumBar() {
           </div>
         ))}
       </div>
-      <div className="flex justify-between mt-1.5 text-[10px] text-slate-600 px-1 font-mono">
+      <div className="flex justify-between mt-1.5 text-[10px] text-slate-400 dark:text-slate-600 px-1 font-mono">
         <span>Degree of Dependency on Technology</span>
         <span>Degree of Dependency on Process</span>
       </div>
