@@ -7,29 +7,29 @@ import { Grid3X3, TrendingUp, Search, Users } from 'lucide-react'
 const features = [
   {
     icon: Grid3X3,
-    title: 'Interactive Matrix',
-    description: 'Visualize your security posture across 5 asset classes and 5 NIST functions in an interactive 5x5 grid.',
+    title: 'Map Your Coverage',
+    description: 'Plot your security tools and capabilities across 5 asset classes and 5 NIST functions. See at a glance what\u2019s covered and what isn\u2019t.',
     accentColor: '#22d3ee',
     glowColor: 'rgba(34, 211, 238, 0.04)',
   },
   {
     icon: TrendingUp,
-    title: 'Maturity Tracking',
-    description: 'Assess and track maturity levels from 1 (Initial) to 5 (Optimized) with detailed criteria and justifications.',
+    title: 'Measure What Matters',
+    description: 'Rate each cell from 1 to 5 based on real capability \u2014 not vendor promises. Track progress as your program matures.',
     accentColor: '#818cf8',
     glowColor: 'rgba(129, 140, 248, 0.04)',
   },
   {
     icon: Search,
-    title: 'Gap Analysis',
-    description: 'Automatically identify critical security gaps and get prioritized recommendations for improvement.',
+    title: 'Find the Gaps',
+    description: 'Stop guessing where you\u2019re exposed. The matrix reveals blind spots that slide decks and sales pitches won\u2019t show you.',
     accentColor: '#fbbf24',
     glowColor: 'rgba(251, 191, 36, 0.04)',
   },
   {
     icon: Users,
-    title: 'Team Collaboration',
-    description: 'Invite team members, share assessments, and work together to strengthen your security program.',
+    title: 'Built for Teams',
+    description: 'Security isn\u2019t a solo effort. Invite your team, share assessments, and get everyone \u2014 technical or not \u2014 on the same page.',
     accentColor: '#34d399',
     glowColor: 'rgba(52, 211, 153, 0.04)',
   },
@@ -46,13 +46,13 @@ export function FeatureCards() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <p className="text-xs font-mono text-cyan-400 tracking-widest uppercase mb-3">Capabilities</p>
+          <p className="text-xs font-mono text-cyan-400 tracking-widest uppercase mb-3">What It Does</p>
           <h2 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-4">
-            Everything you need to assess your security
+            No buzzwords. Just clarity.
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Built on Sounil Yu&apos;s Cyber Defense Matrix, DefenseMatrix gives you the tools to understand,
-            measure, and improve your cybersecurity posture.
+            Built on Sounil Yu&apos;s Cyber Defense Matrix &mdash; a framework that maps what you have
+            against what you need. No marketing jargon, no vendor spin.
           </p>
         </motion.div>
 
