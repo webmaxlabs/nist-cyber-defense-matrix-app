@@ -31,11 +31,11 @@ export function MobileNav() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="md:hidden text-slate-400 hover:text-slate-200 hover:bg-white/5">
+        <Button variant="ghost" size="icon" className="md:hidden text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/5">
           <Menu className="h-5 w-5" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="w-64 glass border-l border-white/5">
+      <SheetContent side="right" className="w-64 glass border-l border-slate-200 dark:border-white/5">
         <SheetTitle className="sr-only">Navigation</SheetTitle>
         <div className="flex flex-col gap-4 pt-8">
           <p className="px-2 text-sm font-medium text-muted-foreground">Hi, {displayName}</p>
@@ -51,7 +51,7 @@ export function MobileNav() {
                     'rounded-lg px-3 py-2 text-sm font-medium transition-all',
                     isActive
                       ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20'
-                      : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/5'
                   )}
                 >
                   {link.label}
@@ -59,7 +59,7 @@ export function MobileNav() {
               )
             })}
           </nav>
-          <div className="border-t border-white/5 pt-4">
+          <div className="border-t border-slate-200 dark:border-white/5 pt-4">
             <Button variant="ghost" className="w-full justify-start gap-2 text-red-400 hover:text-red-300 hover:bg-red-500/5" onClick={handleSignOut}>
               <LogOut className="h-4 w-4" />
               Sign Out

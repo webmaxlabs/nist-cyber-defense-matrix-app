@@ -16,10 +16,10 @@ export function SecurityToolCard({ tool, isSelected, onClick }: SecurityToolCard
       onClick={onClick}
       className={cn(
         'relative flex flex-col items-center justify-center rounded-xl p-3 transition-all aspect-square',
-        'bg-[rgba(14,20,37,0.8)] backdrop-blur-xl',
+        'bg-slate-50/95 dark:bg-[rgba(14,20,37,0.8)] backdrop-blur-xl',
         isSelected
           ? 'gradient-border-animated border-0'
-          : 'border-2 border-white/10 hover:border-cyan-500/30 hover:shadow-md hover:shadow-cyan-500/5'
+          : 'border-2 border-slate-200 dark:border-white/10 hover:border-cyan-500/30 hover:shadow-md hover:shadow-cyan-500/5'
       )}
       title={tool.vendorName}
     >

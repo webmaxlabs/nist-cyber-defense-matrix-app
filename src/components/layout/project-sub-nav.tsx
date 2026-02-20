@@ -19,7 +19,7 @@ export function ProjectSubNav({ projectId }: ProjectSubNavProps) {
   ]
 
   return (
-    <nav className="border-b border-white/5">
+    <nav className="border-b border-slate-200 dark:border-white/5">
       <div className="container mx-auto px-4">
         <div className="flex items-center gap-1 -mb-px">
           {links.map((link) => {
@@ -34,7 +34,7 @@ export function ProjectSubNav({ projectId }: ProjectSubNavProps) {
                   'flex items-center gap-2 border-b-2 px-4 py-3 text-sm font-medium transition-all',
                   isActive
                     ? 'border-cyan-400 text-cyan-400'
-                    : 'border-transparent text-slate-500 hover:text-slate-300 hover:border-white/10'
+                    : 'border-transparent text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 hover:border-slate-300 dark:hover:border-white/10'
                 )}
               >
                 <link.icon className="h-4 w-4" />

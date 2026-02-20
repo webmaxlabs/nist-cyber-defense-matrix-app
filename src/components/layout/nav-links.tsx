@@ -24,7 +24,7 @@ export function NavLinks() {
               'rounded-lg px-4 py-1.5 text-sm font-medium transition-all',
               isActive
                 ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/5'
             )}
           >
             {link.label}

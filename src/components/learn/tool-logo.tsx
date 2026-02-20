@@ -38,14 +38,14 @@ export function ToolLogo({ vendorName, websiteUrl, size = 'sm' }: ToolLogoProps)
 
   if (!domain || sourceIndex >= FAVICON_SOURCES.length) {
     return (
-      <div className={`flex items-center justify-center bg-white/5 font-bold font-mono text-slate-300 ${sizeClasses}`}>
+      <div className={`flex items-center justify-center bg-slate-100 dark:bg-white/5 font-bold font-mono text-slate-600 dark:text-slate-300 ${sizeClasses}`}>
         {vendorName.slice(0, 2).toUpperCase()}
       </div>
     )
   }
 
   return (
-    <div className={`flex items-center justify-center bg-white/5 ${sizeClasses}`}>
+    <div className={`flex items-center justify-center bg-slate-100 dark:bg-white/5 ${sizeClasses}`}>
       <img
         src={FAVICON_SOURCES[sourceIndex](domain)}
         alt={vendorName}

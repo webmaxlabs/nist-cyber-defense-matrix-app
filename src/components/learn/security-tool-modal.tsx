@@ -18,7 +18,7 @@ export function SecurityToolModal({ tool, open, onOpenChange }: SecurityToolModa
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg !bg-[rgb(14,20,37)] border-0 p-0 gradient-border-modal">
+      <DialogContent className="max-w-lg !bg-white dark:!bg-[rgb(14,20,37)] border-0 p-0 gradient-border-modal">
         <div className="max-h-[85vh] overflow-y-auto p-6">
           <DialogHeader>
             <div className="flex items-center gap-3">
@@ -36,7 +36,7 @@ export function SecurityToolModal({ tool, open, onOpenChange }: SecurityToolModa
                 <Info className="h-4 w-4 text-muted-foreground" />
                 About
               </div>
-              <p className="text-sm text-slate-300">{tool.description}</p>
+              <p className="text-sm text-slate-600 dark:text-slate-300">{tool.description}</p>
             </div>
 
             <div>
@@ -46,7 +46,7 @@ export function SecurityToolModal({ tool, open, onOpenChange }: SecurityToolModa
               </div>
               <div className="flex flex-wrap gap-2">
                 {tool.keyProducts.map((product) => (
-                  <Badge key={product} variant="outline" className="text-xs border-white/10 text-slate-300">
+                  <Badge key={product} variant="outline" className="text-xs border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300">
                     {product}
                   </Badge>
                 ))}

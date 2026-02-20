@@ -62,16 +62,16 @@ export function ResourcesSection() {
               href={resource.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`group flex flex-col rounded-xl border border-white/10 bg-white/[0.03] p-5 transition-all ${style.hoverBorder} ${style.hoverShadow} hover:bg-white/[0.06]`}
+              className={`group flex flex-col rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[0.03] p-5 transition-all ${style.hoverBorder} ${style.hoverShadow} hover:bg-slate-100 dark:hover:bg-white/[0.06]`}
             >
               <div className="flex items-center justify-between mb-3">
                 <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${style.iconBg}`}>
                   <Icon className={`h-5 w-5 ${style.iconText}`} />
                 </div>
-                <ExternalLink className="h-4 w-4 text-slate-600 transition-all group-hover:text-slate-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <ExternalLink className="h-4 w-4 text-slate-400 dark:text-slate-600 transition-all group-hover:text-slate-600 dark:group-hover:text-slate-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </div>
               <h3 className="text-sm font-semibold text-foreground mb-1.5">{resource.title}</h3>
-              <p className="text-xs text-slate-400 leading-relaxed flex-1">{resource.description}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed flex-1">{resource.description}</p>
               <div className={`mt-3 self-start rounded-full px-2.5 py-0.5 text-[10px] font-mono font-medium ${style.tag}`}>
                 {new URL(resource.url).hostname.replace('www.', '')}
               </div>

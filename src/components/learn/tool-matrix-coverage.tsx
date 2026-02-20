@@ -28,7 +28,7 @@ export function ToolMatrixCoverage({ tool }: ToolMatrixCoverageProps) {
 
             {ASSET_CLASSES.map((asset) => (
               <Fragment key={asset}>
-                <div className="text-xs font-medium text-slate-300 flex items-center">
+                <div className="text-xs font-medium text-slate-600 dark:text-slate-300 flex items-center">
                   {ASSET_LABELS[asset]}
                 </div>
                 {NIST_FUNCTIONS.map((fn) => {
@@ -37,7 +37,7 @@ export function ToolMatrixCoverage({ tool }: ToolMatrixCoverageProps) {
                     <div
                       key={`${asset}-${fn}`}
                       className={`rounded h-8 flex items-center justify-center ${
-                        covered ? 'bg-green-400' : 'bg-white/5'
+                        covered ? 'bg-green-400' : 'bg-slate-100 dark:bg-white/5'
                       }`}
                     >
                       {covered && <span className="text-white text-xs font-bold">O</span>}
@@ -56,13 +56,13 @@ export function ToolMatrixCoverage({ tool }: ToolMatrixCoverageProps) {
           <span>Covered by {tool.vendorName}</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="h-3 w-3 rounded bg-white/5" />
+          <div className="h-3 w-3 rounded bg-slate-100 dark:bg-white/5" />
           <span>Not covered</span>
         </div>
       </div>
 
       <div className="mt-3 rounded-lg bg-cyan-500/5 border border-cyan-500/20 p-3">
-        <p className="text-xs text-slate-300">
+        <p className="text-xs text-slate-600 dark:text-slate-300">
           <strong>Coverage Summary:</strong> {tool.vendorName} provides coverage across{' '}
           <strong>{tool.coverageCells.length} cells</strong> of the Cyber Defense Matrix, primarily
           focusing on <strong>{coveredAssets.join(', ')}</strong> asset classes and{' '}

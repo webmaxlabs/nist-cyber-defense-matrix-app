@@ -27,7 +27,7 @@ export function UserMenu() {
   return (
     <div className="flex items-center gap-3">
       <div className="flex items-center gap-2">
-        <Avatar className="h-8 w-8 border border-white/10">
+        <Avatar className="h-8 w-8 border border-slate-200 dark:border-white/10">
           <AvatarImage src={avatarUrl || undefined} alt={displayName} />
           <AvatarFallback className="bg-cyan-500/10 text-cyan-400 text-xs font-mono">{initials}</AvatarFallback>
         </Avatar>
@@ -40,7 +40,7 @@ export function UserMenu() {
         variant="outline"
         size="sm"
         onClick={handleSignOut}
-        className="gap-1.5 border-white/10 text-slate-400 hover:text-slate-200 hover:bg-white/5 hover:border-white/15"
+        className="gap-1.5 border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/5 hover:border-slate-300 dark:hover:border-white/15"
       >
         <LogOut className="h-3.5 w-3.5" />
         Logout

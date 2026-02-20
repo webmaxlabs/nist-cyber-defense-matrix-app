@@ -10,7 +10,7 @@ export function FrameworkOverview() {
         <h1 className="text-3xl font-display font-bold text-foreground mb-3">
           Understanding the Cyber Defense Matrix
         </h1>
-        <p className="text-slate-300 max-w-2xl mx-auto">
+        <p className="text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
           Master the framework that helps security teams classify, organize, and advance their
           cybersecurity capabilities.
         </p>
@@ -19,7 +19,7 @@ export function FrameworkOverview() {
       <Card className="glass border-2 border-cyan-500/20">
         <CardContent className="p-6">
           <h2 className="text-lg font-display font-semibold text-foreground mb-3">What is the Cyber Defense Matrix?</h2>
-          <p className="text-sm text-slate-300 leading-relaxed mb-4">
+          <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
             Created by Sounil Yu, the Cyber Defense Matrix maps 5 operational functions from the
             NIST Cybersecurity Framework (Identify, Protect, Detect, Respond, Recover) against 5
             asset classes (Devices, Applications, Networks, Data, Users) to create a comprehensive
