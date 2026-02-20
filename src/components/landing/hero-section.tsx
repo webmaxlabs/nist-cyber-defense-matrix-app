@@ -3,7 +3,7 @@
 import { Fragment, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Shield, ArrowRight, Github } from 'lucide-react'
+import { Shield, ArrowRight, Github, BookOpen } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 function FloatingParticle({ delay, x, y, size }: { delay: number; x: number; y: number; size: number }) {
@@ -118,12 +118,12 @@ export function HeroSection() {
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
-              <a href="https://github.com/webmaxlabs/nist-cyber-defense-matrix-app" target="_blank" rel="noopener noreferrer">
+              <Link href="/learn">
                 <Button size="lg" variant="outline" className="border-slate-300 dark:border-slate-700/50 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:border-cyan-500/30 hover:text-cyan-300 h-12 px-8 transition-all gap-2">
-                  <Github className="h-4 w-4" />
-                  View on GitHub
+                  <BookOpen className="h-4 w-4" />
+                  Learn the Framework
                 </Button>
-              </a>
+              </Link>
             </div>
 
             {/* Trust indicators */}

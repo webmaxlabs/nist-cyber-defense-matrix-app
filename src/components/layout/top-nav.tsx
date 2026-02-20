@@ -31,10 +31,14 @@ export function TopNav() {
             </div>
           </Link>
 
-          {user && (
+          {user ? (
             <div className="hidden md:block">
               <NavLinks />
             </div>
+          ) : (
+            <Link href="/learn" className="hidden sm:block text-sm text-slate-500 dark:text-slate-400 hover:text-cyan-400 transition-colors font-medium">
+              Learn
+            </Link>
           )}
         </div>
 

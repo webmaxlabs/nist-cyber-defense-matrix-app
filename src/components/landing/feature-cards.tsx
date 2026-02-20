@@ -59,7 +59,8 @@ export function FeatureCards() {
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             Built on Sounil Yu&apos;s Cyber Defense Matrix &mdash; a framework that maps what you have
-            against what you need. No marketing jargon, no vendor spin.
+            against what you need. Open source, license-free, and free for anyone to use, test, and
+            deploy in their own environment.
           </p>
         </motion.div>
 

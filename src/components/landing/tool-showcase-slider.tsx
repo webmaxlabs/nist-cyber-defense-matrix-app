@@ -2,7 +2,8 @@
 
 import { Fragment, useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronLeft, ChevronRight, ShieldCheck } from 'lucide-react'
+import Link from 'next/link'
+import { ChevronLeft, ChevronRight, ShieldCheck, ArrowRight } from 'lucide-react'
 import { ASSET_CLASSES, NIST_FUNCTIONS } from '@/lib/constants/matrix'
 import { SECURITY_TOOLS, type SecurityToolData } from '@/lib/data/security-tools'
 import { ToolLogo } from '@/components/learn/tool-logo'
@@ -287,6 +288,17 @@ export function ToolShowcaseSlider() {
           <button onClick={goToNext} className={arrowClasses} aria-label="Next tool">
             <ChevronRight className="h-4 w-4" />
           </button>
+        </div>
+
+        {/* CTA */}
+        <div className="text-center mt-10">
+          <Link
+            href="/learn"
+            className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-cyan-400 transition-colors"
+          >
+            Explore all 100+ security tools
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
         </div>
       </div>
     </section>
