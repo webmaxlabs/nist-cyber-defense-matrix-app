@@ -2,6 +2,16 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function updateSession(request: NextRequest) {
+  // Enforce HTTPS in production
+  if (
+    process.env.NODE_ENV === 'production' &&
+    request.headers.get('x-forwarded-proto') === 'http'
+  ) {
+    const httpsUrl = new URL(request.url)
+    httpsUrl.protocol = 'https:'
+    return NextResponse.redirect(httpsUrl, 301)
+  }
+
   let supabaseResponse = NextResponse.next({ request })
 
   const supabase = createServerClient(

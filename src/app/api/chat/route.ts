@@ -4,6 +4,21 @@ import { runAgentLoop } from '@/lib/ai/agent-loop'
 import type { ConversationMessage } from '@/lib/ai/providers/types'
 import type { ChatProposal } from '@/lib/supabase/types'
 import { z } from 'zod'
+import { checkRateLimit } from '@/lib/utils/rate-limiter'
+import { logSecurityEvent } from '@/lib/utils/security-logger'
+
+const ALLOWED_ORIGINS = [
+  process.env.NEXT_PUBLIC_APP_URL,
+  'http://localhost:3000',
+  'http://localhost:3001',
+].filter(Boolean) as string[]
+
+function isOriginAllowed(request: NextRequest): boolean {
+  const origin = request.headers.get('origin')
+  // Allow same-origin requests (no Origin header) and allowed origins
+  if (!origin) return true
+  return ALLOWED_ORIGINS.some((allowed) => origin === allowed)
+}
 
 const requestSchema = z.object({
   messages: z.array(z.object({
@@ -15,6 +30,21 @@ const requestSchema = z.object({
 })
 
 export async function POST(request: NextRequest) {
+  // CORS origin validation
+  if (!isOriginAllowed(request)) {
+    logSecurityEvent({
+      type: 'cors_violation',
+      message: 'Rejected request from disallowed origin',
+      ip: request.headers.get('x-forwarded-for') || undefined,
+      path: '/api/chat',
+      metadata: { origin: request.headers.get('origin') },
+    })
+    return new Response(JSON.stringify({ error: 'Forbidden' }), {
+      status: 403,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -22,10 +52,28 @@ export async function POST(request: NextRequest) {
     return new Response('Unauthorized', { status: 401 })
   }
 
+  // Rate limit: 20 requests per minute per user
+  const rateLimit = checkRateLimit(`chat:${user.id}`)
+  if (!rateLimit.allowed) {
+    logSecurityEvent({
+      type: 'rate_limit_exceeded',
+      message: 'Chat rate limit exceeded',
+      userId: user.id,
+      path: '/api/chat',
+    })
+    return new Response(JSON.stringify({ error: 'Too many requests' }), {
+      status: 429,
+      headers: {
+        'Content-Type': 'application/json',
+        'Retry-After': String(rateLimit.retryAfter),
+      },
+    })
+  }
+
   const body = await request.json()
   const parsed = requestSchema.safeParse(body)
   if (!parsed.success) {
-    return new Response(JSON.stringify({ error: 'Invalid request', details: parsed.error.issues }), {
+    return new Response(JSON.stringify({ error: 'Invalid request' }), {
       status: 400,
       headers: { 'Content-Type': 'application/json' },
     })
@@ -98,8 +146,9 @@ export async function POST(request: NextRequest) {
           }
         }
       } catch (err) {
+        console.error('Chat stream error:', err)
         controller.enqueue(
-          encoder.encode(`data: ${JSON.stringify({ type: 'error', message: (err as Error).message })}\n\n`)
+          encoder.encode(`data: ${JSON.stringify({ type: 'error', message: 'An unexpected error occurred. Please try again.' })}\n\n`)
         )
       } finally {
         controller.close()

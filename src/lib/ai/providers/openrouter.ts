@@ -65,8 +65,9 @@ export class OpenRouterProvider implements LLMProvider {
     })
 
     if (!response.ok) {
-      const error = await response.text()
-      yield { type: 'error', message: `OpenRouter API error: ${error}` }
+      const errorBody = await response.text()
+      console.error('OpenRouter API error:', response.status, errorBody)
+      yield { type: 'error', message: 'AI service is temporarily unavailable. Please try again.' }
       return
     }
 

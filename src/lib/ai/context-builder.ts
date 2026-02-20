@@ -1,5 +1,16 @@
 import { createClient } from '@/lib/supabase/server'
 
+/** Strip characters that could be used for prompt injection when interpolating user data into system prompts. */
+function sanitizeForPrompt(value: string | null | undefined): string {
+  if (!value) return ''
+  return value
+    .replace(/[\n\r]/g, ' ')       // Collapse newlines
+    .replace(/[<>{}[\]]/g, '')       // Strip structural chars
+    .replace(/\s+/g, ' ')            // Normalize whitespace
+    .trim()
+    .slice(0, 200)                   // Hard length cap
+}
+
 const BASE_SYSTEM_PROMPT = `You are the Cyber Defense Matrix AI Advisor, a knowledgeable cybersecurity consultant specializing in Sounil Yu's Cyber Defense Matrix framework.
 
 Your expertise includes:
@@ -35,7 +46,7 @@ export async function buildSystemPrompt(projectIds: string[]): Promise<string> {
   }
 
   const projectContext = projects.map((p) =>
-    `- **${p.name}** (ID: ${p.id}) — Industry: ${p.industry || 'Not set'}, Size: ${p.company_size || 'Not set'}`
+    `- **${sanitizeForPrompt(p.name)}** (ID: ${p.id}) — Industry: ${sanitizeForPrompt(p.industry) || 'Not set'}, Size: ${sanitizeForPrompt(p.company_size) || 'Not set'}`
   ).join('\n')
 
   return `${BASE_SYSTEM_PROMPT}

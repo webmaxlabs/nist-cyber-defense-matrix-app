@@ -18,10 +18,25 @@ export function SignupForm() {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
 
+  const validatePassword = (pw: string): string | null => {
+    if (pw.length < 8) return 'Password must be at least 8 characters'
+    if (!/[a-z]/.test(pw)) return 'Password must include a lowercase letter'
+    if (!/[A-Z]/.test(pw)) return 'Password must include an uppercase letter'
+    if (!/[0-9]/.test(pw)) return 'Password must include a number'
+    return null
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError('')
+
+    const passwordError = validatePassword(password)
+    if (passwordError) {
+      setError(passwordError)
+      setLoading(false)
+      return
+    }
 
     const supabase = createClient()
     const { error } = await supabase.auth.signUp({
@@ -100,11 +115,11 @@ export function SignupForm() {
             <Input
               id="password"
               type="password"
-              placeholder="Min 6 characters"
+              placeholder="Min 8 chars, upper + lower + number"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-foreground placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-cyan-500/40 focus:ring-cyan-500/20"
-              minLength={6}
+              minLength={8}
               required
             />
           </div>
