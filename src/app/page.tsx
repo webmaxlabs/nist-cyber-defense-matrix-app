@@ -2,7 +2,7 @@ import { HeroSection } from '@/components/landing/hero-section'
 import { FeatureCards } from '@/components/landing/feature-cards'
 import { ToolShowcaseSlider } from '@/components/landing/tool-showcase-slider'
 import { TopNav } from '@/components/layout/top-nav'
-import { Shield, Github, BookOpen, Globe, Code2 } from 'lucide-react'
+import { Shield, ShieldCheck, Github, BookOpen, Globe, Code2 } from 'lucide-react'
 import Link from 'next/link'
 
 export default function HomePage() {
@@ -40,7 +40,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto mt-12">
             {[
               {
                 icon: Code2,
@@ -56,6 +56,11 @@ export default function HomePage() {
                 icon: Globe,
                 title: 'Community-Built',
                 description: 'Free for every security team. Contribute on GitHub.',
+              },
+              {
+                icon: ShieldCheck,
+                title: 'AI-Safe by Design',
+                description: 'Share your security posture with AI systems without exposing operational details. The matrix gives you structured visibility that\u2019s safe to analyze externally.',
               },
             ].map((item) => (
               <div key={item.title} className="glass rounded-xl p-6 text-center">

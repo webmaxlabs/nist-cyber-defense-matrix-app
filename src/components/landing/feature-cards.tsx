@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { FeatureCard } from './feature-card'
-import { Grid3X3, TrendingUp, Search, Users } from 'lucide-react'
+import { Grid3X3, TrendingUp, Search, Users, BrainCircuit } from 'lucide-react'
 
 const features = [
   {
@@ -33,6 +33,13 @@ const features = [
     accentColor: '#34d399',
     glowColor: 'rgba(52, 211, 153, 0.04)',
   },
+  {
+    icon: BrainCircuit,
+    title: 'AI-Ready Data',
+    description: 'Export structured assessment data that\u2019s safe to share with AI tools. No credentials, no architecture details \u2014 just the signal an LLM needs to help you prioritize.',
+    accentColor: '#a78bfa',
+    glowColor: 'rgba(167, 139, 250, 0.04)',
+  },
 ]
 
 export function FeatureCards() {
@@ -56,14 +63,27 @@ export function FeatureCards() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-          {features.map((feature, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {features.slice(0, 3).map((feature, index) => (
             <motion.div
               key={feature.title}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
+            >
+              <FeatureCard {...feature} />
+            </motion.div>
+          ))}
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-2xl mx-auto mt-5">
+          {features.slice(3).map((feature, index) => (
+            <motion.div
+              key={feature.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: (index + 3) * 0.1, duration: 0.5 }}
             >
               <FeatureCard {...feature} />
             </motion.div>
