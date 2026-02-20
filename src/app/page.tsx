@@ -1,6 +1,7 @@
 import { HeroSection } from '@/components/landing/hero-section'
 import { FeatureCards } from '@/components/landing/feature-cards'
 import { ToolShowcaseSlider } from '@/components/landing/tool-showcase-slider'
+import { AIAdvisorSection } from '@/components/landing/ai-advisor-section'
 import { TopNav } from '@/components/layout/top-nav'
 import { Shield, ShieldCheck, Github, BookOpen, Globe, Code2 } from 'lucide-react'
 import Link from 'next/link'
@@ -12,6 +13,7 @@ export default function HomePage() {
       <HeroSection />
       <FeatureCards />
       <ToolShowcaseSlider />
+      <AIAdvisorSection />
 
       {/* Why This Exists */}
       <section className="py-24 relative border-t border-slate-200 dark:border-white/5">
