@@ -12,7 +12,7 @@ interface AuthCardProps {
 
 export function AuthCard({ title, description, children }: AuthCardProps) {
   return (
-    <Card className="w-full max-w-md glass border-slate-200 dark:border-white/5 glow-cyan-sm">
+    <Card className="w-full max-w-lg glass border-slate-200 dark:border-white/5 glow-cyan-sm">
       <CardHeader className="text-center pb-2">
         <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-cyan-500/10 border border-cyan-500/20 glow-cyan-sm">
           <Shield className="h-7 w-7 text-cyan-400" />
