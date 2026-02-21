@@ -81,6 +81,13 @@ export function SignupForm() {
   return (
     <AuthCard title="Create an account" description="Get started with Cyber Defense Matrix AI">
       <div className="space-y-4">
+        <div className="rounded-lg border border-orange-400/30 bg-orange-500/10 px-4 py-3 text-sm">
+          <p className="font-semibold text-orange-400 text-center mb-1.5">THIS IS A DEMO ENVIRONMENT</p>
+          <p className="text-orange-300/80 dark:text-orange-300/80 text-orange-600 leading-relaxed">
+            Prioritizing convenience over security, email accounts aren&apos;t validated. Feel free to use a fake one for sign up. We&apos;re not here to harvest emails. Demo accounts are deleted after 30 days. And DO NOT put sensitive data into your demo account, obviously.
+          </p>
+        </div>
+
         <OAuthButtons />
 
         <div className="relative">
