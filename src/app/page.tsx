@@ -3,6 +3,7 @@ import { HeroSection } from '@/components/landing/hero-section'
 import { FeatureCards } from '@/components/landing/feature-cards'
 import { ToolShowcaseSlider } from '@/components/landing/tool-showcase-slider'
 import { AIAdvisorSection } from '@/components/landing/ai-advisor-section'
+import { EndorsementsSlider } from '@/components/landing/endorsements-slider'
 import { TopNav } from '@/components/layout/top-nav'
 import { Shield, ShieldCheck, Github, BookOpen, Globe, Code2 } from 'lucide-react'
 import Link from 'next/link'
@@ -48,6 +49,7 @@ export default function HomePage() {
       <FeatureCards />
       <ToolShowcaseSlider />
       <AIAdvisorSection />
+      <EndorsementsSlider />
 
       {/* Why This Exists */}
       <section className="py-24 relative border-t border-slate-200 dark:border-white/5">

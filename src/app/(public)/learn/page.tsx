@@ -3,6 +3,7 @@ import { FrameworkOverview } from '@/components/learn/framework-overview'
 import { SecurityToolsSection } from '@/components/learn/security-tools-section'
 import { FAQSection } from '@/components/learn/faq-section'
 import { ResourcesSection } from '@/components/learn/resources-section'
+import { EndorsementsSection } from '@/components/learn/endorsements-section'
 import { faqs } from '@/lib/constants/faq-data'
 
 export const metadata: Metadata = {
@@ -68,6 +69,7 @@ export default function LearnPage() {
         <SecurityToolsSection />
         <FAQSection />
         <ResourcesSection />
+        <EndorsementsSection />
       </div>
     </>
   )
