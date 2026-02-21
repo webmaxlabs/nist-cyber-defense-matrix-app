@@ -17,11 +17,11 @@ export async function logActivity({
   metadata?: Record<string, unknown>
 }) {
   const supabase = createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { session } } = await supabase.auth.getSession()
 
   await supabase.from('activity_log').insert({
     project_id: projectId,
-    user_id: user?.id,
+    user_id: session?.user?.id,
     action_type: actionType,
     entity_type: entityType,
     entity_id: entityId,

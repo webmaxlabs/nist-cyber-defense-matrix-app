@@ -5,7 +5,7 @@ import { ASSET_LABELS, NIST_LABELS } from '@/lib/constants/matrix'
 
 export async function upsertAssessment(input: CellAssessmentInput) {
   const supabase = createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { session } } = await supabase.auth.getSession()
 
   const { data, error } = await supabase
     .from('cell_assessments')
@@ -16,7 +16,7 @@ export async function upsertAssessment(input: CellAssessmentInput) {
         cell_column: input.cell_column,
         maturity_level: input.maturity_level,
         justification: input.justification || null,
-        assessed_by: user?.id,
+        assessed_by: session?.user?.id,
         last_assessment_date: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       },

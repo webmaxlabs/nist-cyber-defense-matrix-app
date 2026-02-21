@@ -3,12 +3,8 @@ import type { CreateProjectInput, UpdateProjectInput } from '@/lib/validators/pr
 
 export async function createProject(input: CreateProjectInput) {
   const supabase = createClient()
-  console.log('[createProject] getting user...')
-  const { data: { user }, error: authError } = await supabase.auth.getUser()
-  console.log('[createProject] user:', user?.id, 'authError:', authError?.message)
-  if (!user) throw new Error('Not authenticated')
-
-  console.log('[createProject] inserting project...')
+  const { data: { session } } = await supabase.auth.getSession()
+  if (!session?.user) throw new Error('Not authenticated')
   const { data, error } = await supabase
     .from('projects')
     .insert({
@@ -16,7 +12,7 @@ export async function createProject(input: CreateProjectInput) {
       description: input.description || null,
       industry: input.industry || null,
       company_size: input.company_size || null,
-      owner_id: user.id,
+      owner_id: session.user.id,
     })
     .select()
     .single()
@@ -26,14 +22,14 @@ export async function createProject(input: CreateProjectInput) {
   // Add owner as member
   await supabase.from('project_members').insert({
     project_id: data.id,
-    user_id: user.id,
+    user_id: session.user.id,
     role: 'owner',
   })
 
   // Log activity
   await supabase.from('activity_log').insert({
     project_id: data.id,
-    user_id: user.id,
+    user_id: session.user.id,
     action_type: 'created',
     entity_type: 'project',
     entity_id: data.id,

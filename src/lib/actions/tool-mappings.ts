@@ -4,13 +4,13 @@ import { logActivity } from './activity'
 
 export async function addToolMapping(input: ToolMappingInput) {
   const supabase = createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { data: { session } } = await supabase.auth.getSession()
 
   const { data, error } = await supabase
     .from('tool_mappings')
     .insert({
       ...input,
-      added_by: user?.id,
+      added_by: session?.user?.id,
     })
     .select('*, tool:tools(*)')
     .single()
