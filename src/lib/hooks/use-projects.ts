@@ -16,7 +16,11 @@ export function useCreateProject() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (input: CreateProjectInput) => createProject(input),
+    mutationFn: async (input: CreateProjectInput) => {
+      const result = await createProject(input)
+      if (result.error) throw new Error(result.error)
+      return result.data
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['projects'] })
     },
@@ -27,7 +31,11 @@ export function useArchiveProject() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (projectId: string) => archiveProject(projectId),
+    mutationFn: async (projectId: string) => {
+      const result = await archiveProject(projectId)
+      if (result.error) throw new Error(result.error)
+      return result.data
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['projects'] })
     },
@@ -38,7 +46,10 @@ export function useDeleteProject() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (projectId: string) => deleteProject(projectId),
+    mutationFn: async (projectId: string) => {
+      const result = await deleteProject(projectId)
+      if (result.error) throw new Error(result.error)
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['projects'] })
     },

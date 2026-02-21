@@ -29,7 +29,7 @@ export function NewProjectForm() {
         industry: industry || undefined,
         company_size: companySize || undefined,
       })
-      router.push(`/project/${project.id}`)
+      if (project) router.push(`/project/${project.id}`)
     } catch (err) {
       console.error('Project creation failed:', err)
     }
