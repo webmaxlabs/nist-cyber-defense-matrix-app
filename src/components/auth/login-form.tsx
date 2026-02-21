@@ -8,9 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { AuthCard } from './auth-card'
-import { OAuthButtons } from './oauth-buttons'
 import { MagicLinkForm } from './magic-link-form'
-import { Separator } from '@/components/ui/separator'
 
 export function LoginForm() {
   const [email, setEmail] = useState('')
@@ -40,17 +38,6 @@ export function LoginForm() {
   return (
     <AuthCard title="Welcome back" description="Sign in to your Cyber Defense Matrix AI account">
       <div className="space-y-4">
-        <OAuthButtons />
-
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <Separator className="bg-slate-200 dark:bg-white/5" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-card px-2 text-muted-foreground">Or</span>
-          </div>
-        </div>
-
         {mode === 'password' ? (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">

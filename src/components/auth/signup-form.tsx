@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { AuthCard } from './auth-card'
-import { OAuthButtons } from './oauth-buttons'
 import { Separator } from '@/components/ui/separator'
 
 export function SignupForm() {
@@ -86,17 +85,6 @@ export function SignupForm() {
           <p className="text-orange-300/80 dark:text-orange-300/80 text-orange-600 leading-relaxed">
             Prioritizing convenience over security, email accounts aren&apos;t validated. Feel free to use a fake one for sign up. We&apos;re not here to harvest emails. Demo accounts are deleted after 30 days. And DO NOT put sensitive data into your demo account, obviously.
           </p>
-        </div>
-
-        <OAuthButtons />
-
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <Separator className="bg-slate-200 dark:bg-white/5" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-card px-2 text-muted-foreground">Or</span>
-          </div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
