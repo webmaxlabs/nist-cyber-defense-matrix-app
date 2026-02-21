@@ -114,20 +114,22 @@ function MiniDefenseMatrix({
 function ToolCard({ tool }: { tool: SecurityToolData }) {
   return (
     <div className="glass rounded-2xl p-6 sm:p-8 w-full max-w-md mx-auto">
-      {/* Header row */}
-      <div className="flex items-center gap-3 mb-4">
-        <ToolLogo vendorName={tool.vendorName} websiteUrl={tool.websiteUrl} size="md" />
-        <div className="min-w-0 flex-1">
-          <h3 className="font-display text-xl font-bold text-foreground truncate">
+      {/* Header */}
+      <div className="mb-4">
+        <div className="flex items-center gap-3 mb-2">
+          <ToolLogo vendorName={tool.vendorName} websiteUrl={tool.websiteUrl} size="md" />
+          <h3 className="font-display text-xl font-bold text-foreground min-w-0 truncate">
             {tool.vendorName}
           </h3>
         </div>
-        <span className="shrink-0 text-[10px] bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 rounded-full px-2.5 py-0.5">
-          {tool.category}
-        </span>
-        <span className="text-[10px] bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-full px-2.5 py-0.5">
-          {COST_LABELS[tool.costRange] || tool.costRange}
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 rounded-full px-2.5 py-0.5">
+            {tool.category}
+          </span>
+          <span className="text-[10px] bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-full px-2.5 py-0.5">
+            {COST_LABELS[tool.costRange] || tool.costRange}
+          </span>
+        </div>
       </div>
 
       {/* Description */}

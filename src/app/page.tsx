@@ -81,22 +81,22 @@ export default function HomePage() {
               {
                 icon: Code2,
                 title: 'Open Source',
-                description: 'Deploy it yourself. Own your data. No vendor lock-in.',
+                description: 'Self-host on your own infrastructure. Full control over your data, your deployment, and your roadmap. No vendor lock-in, ever.',
               },
               {
                 icon: BookOpen,
                 title: 'Framework-Driven',
-                description: 'Built on the Cyber Defense Matrix, not marketing whitepapers.',
+                description: 'Built on Sounil Yu\u2019s Cyber Defense Matrix \u2014 a proven model used across the industry. No marketing whitepapers, just structure.',
               },
               {
                 icon: Globe,
                 title: 'Community-Built',
-                description: 'Free for every security team. Contribute on GitHub.',
+                description: 'Free for every security team, from startups to enterprises. Contribute on GitHub and help shape what comes next.',
               },
               {
                 icon: ShieldCheck,
                 title: 'AI-Safe by Design',
-                description: 'Share your security posture with AI systems without exposing operational details. The matrix gives you structured visibility that\u2019s safe to analyze externally.',
+                description: 'Share your security posture with AI systems without exposing operational details. Structured visibility that\u2019s safe to analyze externally.',
               },
             ].map((item) => (
               <div key={item.title} className="glass rounded-xl p-6 text-center">
