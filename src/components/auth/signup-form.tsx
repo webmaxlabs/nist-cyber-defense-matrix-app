@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -11,6 +12,7 @@ import { OAuthButtons } from './oauth-buttons'
 import { Separator } from '@/components/ui/separator'
 
 export function SignupForm() {
+  const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [fullName, setFullName] = useState('')
@@ -39,7 +41,7 @@ export function SignupForm() {
     }
 
     const supabase = createClient()
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -51,7 +53,11 @@ export function SignupForm() {
     if (error) {
       setError(error.message)
       setLoading(false)
+    } else if (data.session) {
+      // Email confirmations disabled — user is signed in immediately
+      router.push('/projects')
     } else {
+      // Email confirmation required — show check-your-email message
       setSuccess(true)
       setLoading(false)
     }
