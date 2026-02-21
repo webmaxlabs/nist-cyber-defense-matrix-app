@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Exo_2, DM_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
@@ -23,6 +23,14 @@ const jetbrainsMono = JetBrains_Mono({
 
 const siteUrl = "https://cyberdefensematrix.ai";
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0c1222" },
+  ],
+  colorScheme: "dark light",
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
@@ -44,6 +52,14 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Cyber Defense Matrix AI" }],
   creator: "Cyber Defense Matrix AI",
+  manifest: "/site.webmanifest",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -82,6 +98,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: siteUrl,
   },
+  other: {
+    "msapplication-TileColor": "#0c1222",
+  },
 };
 
 export default function RootLayout({
@@ -104,7 +123,7 @@ export default function RootLayout({
                   "@type": "Organization",
                   name: "Cyber Defense Matrix AI",
                   url: siteUrl,
-                  logo: `${siteUrl}/og-image.png`,
+                  logo: `${siteUrl}/icon-512x512.png`,
                   sameAs: [
                     "https://github.com/webmaxlabs/nist-cyber-defense-matrix-app",
                   ],
