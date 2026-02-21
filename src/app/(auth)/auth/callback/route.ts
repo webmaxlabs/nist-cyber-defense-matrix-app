@@ -25,6 +25,18 @@ export async function GET(request: Request) {
     if (!error) {
       return NextResponse.redirect(`${origin}${next}`)
     }
+    console.error('Auth callback: code exchange failed', {
+      error: error.message,
+      status: error.status,
+    })
+    logSecurityEvent({
+      type: 'auth_failure',
+      message: 'OAuth code exchange failed',
+      path: '/auth/callback',
+      metadata: { error: error.message, status: error.status },
+    })
+  } else {
+    console.error('Auth callback: no code parameter in URL')
   }
 
   return NextResponse.redirect(`${origin}/login?error=auth_callback_error`)
