@@ -1,17 +1,22 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import type { CreateProjectInput, UpdateProjectInput } from '@/lib/validators/project'
 
 type ActionResult<T> = { data: T; error: null } | { data: null; error: string }
 
 export async function createProject(input: CreateProjectInput): Promise<ActionResult<{ id: string; name: string }>> {
   try {
+    // Verify auth server-side with the user's JWT
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return { data: null, error: 'Not authenticated' }
 
-    const { data, error } = await supabase
+    // Use admin client for writes — auth verified above, admin bypasses RLS
+    const admin = createAdminClient()
+
+    const { data, error } = await admin
       .from('projects')
       .insert({
         name: input.name,
@@ -26,7 +31,7 @@ export async function createProject(input: CreateProjectInput): Promise<ActionRe
     if (error) return { data: null, error: error.message }
 
     // Add owner as member
-    const { error: memberError } = await supabase.from('project_members').insert({
+    const { error: memberError } = await admin.from('project_members').insert({
       project_id: data.id,
       user_id: user.id,
       role: 'owner',
@@ -34,7 +39,7 @@ export async function createProject(input: CreateProjectInput): Promise<ActionRe
     if (memberError) console.error('Failed to add owner as member:', memberError.message)
 
     // Log activity
-    await supabase.from('activity_log').insert({
+    await admin.from('activity_log').insert({
       project_id: data.id,
       user_id: user.id,
       action_type: 'created',
@@ -52,10 +57,15 @@ export async function createProject(input: CreateProjectInput): Promise<ActionRe
 export async function updateProject(projectId: string, input: UpdateProjectInput): Promise<ActionResult<{ id: string }>> {
   try {
     const supabase = await createClient()
-    const { data, error } = await supabase
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return { data: null, error: 'Not authenticated' }
+
+    const admin = createAdminClient()
+    const { data, error } = await admin
       .from('projects')
       .update({ ...input, updated_at: new Date().toISOString() })
       .eq('id', projectId)
+      .eq('owner_id', user.id)
       .select()
       .single()
 
@@ -73,10 +83,15 @@ export async function archiveProject(projectId: string) {
 export async function deleteProject(projectId: string): Promise<{ error: string | null }> {
   try {
     const supabase = await createClient()
-    const { error } = await supabase
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return { error: 'Not authenticated' }
+
+    const admin = createAdminClient()
+    const { error } = await admin
       .from('projects')
       .delete()
       .eq('id', projectId)
+      .eq('owner_id', user.id)
 
     if (error) return { error: error.message }
     return { error: null }

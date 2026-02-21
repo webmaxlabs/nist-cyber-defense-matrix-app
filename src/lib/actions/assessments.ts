@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import type { CellAssessmentInput } from '@/lib/validators/assessment'
 import { logActivity } from './activity'
 import { ASSET_LABELS, NIST_LABELS } from '@/lib/constants/matrix'
@@ -8,8 +9,10 @@ import { ASSET_LABELS, NIST_LABELS } from '@/lib/constants/matrix'
 export async function upsertAssessment(input: CellAssessmentInput) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Not authenticated')
 
-  const { data, error } = await supabase
+  const admin = createAdminClient()
+  const { data, error } = await admin
     .from('cell_assessments')
     .upsert(
       {
@@ -18,7 +21,7 @@ export async function upsertAssessment(input: CellAssessmentInput) {
         cell_column: input.cell_column,
         maturity_level: input.maturity_level,
         justification: input.justification || null,
-        assessed_by: user?.id,
+        assessed_by: user.id,
         last_assessment_date: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       },
@@ -27,7 +30,7 @@ export async function upsertAssessment(input: CellAssessmentInput) {
     .select()
     .single()
 
-  if (error) throw error
+  if (error) throw new Error(error.message)
 
   await logActivity({
     projectId: input.project_id,

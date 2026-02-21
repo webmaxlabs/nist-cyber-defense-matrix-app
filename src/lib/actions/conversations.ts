@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import type { ChatProposal } from '@/lib/supabase/types'
 
 export async function updateProposalStatus(
@@ -10,14 +11,18 @@ export async function updateProposalStatus(
   errorMessage?: string
 ) {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Not authenticated')
 
-  const { data: message, error: fetchError } = await supabase
+  const admin = createAdminClient()
+
+  const { data: message, error: fetchError } = await admin
     .from('chat_messages')
     .select('proposals')
     .eq('id', messageId)
     .single()
 
-  if (fetchError) throw fetchError
+  if (fetchError) throw new Error(fetchError.message)
 
   const proposals: ChatProposal[] = (message?.proposals as ChatProposal[]) || []
   const updated = proposals.map((p) =>
@@ -31,32 +36,42 @@ export async function updateProposalStatus(
       : p
   )
 
-  const { error } = await supabase
+  const { error } = await admin
     .from('chat_messages')
     .update({ proposals: updated })
     .eq('id', messageId)
 
-  if (error) throw error
+  if (error) throw new Error(error.message)
 }
 
 export async function deleteConversation(conversationId: string) {
   const supabase = await createClient()
-  const { error } = await supabase
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Not authenticated')
+
+  const admin = createAdminClient()
+  const { error } = await admin
     .from('chat_conversations')
     .delete()
     .eq('id', conversationId)
+    .eq('user_id', user.id)
 
-  if (error) throw error
+  if (error) throw new Error(error.message)
 }
 
 export async function updateConversationTitle(conversationId: string, title: string) {
   const supabase = await createClient()
-  const { error } = await supabase
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Not authenticated')
+
+  const admin = createAdminClient()
+  const { error } = await admin
     .from('chat_conversations')
     .update({ title, updated_at: new Date().toISOString() })
     .eq('id', conversationId)
+    .eq('user_id', user.id)
 
-  if (error) throw error
+  if (error) throw new Error(error.message)
 }
 
 export async function updateConversationProjects(
@@ -64,16 +79,20 @@ export async function updateConversationProjects(
   projectIds: string[]
 ) {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Not authenticated')
 
-  const { error: deleteError } = await supabase
+  const admin = createAdminClient()
+
+  const { error: deleteError } = await admin
     .from('chat_conversation_projects')
     .delete()
     .eq('conversation_id', conversationId)
 
-  if (deleteError) throw deleteError
+  if (deleteError) throw new Error(deleteError.message)
 
   if (projectIds.length > 0) {
-    const { error } = await supabase
+    const { error } = await admin
       .from('chat_conversation_projects')
       .insert(
         projectIds.map((pid) => ({
@@ -81,6 +100,6 @@ export async function updateConversationProjects(
           project_id: pid,
         }))
       )
-    if (error) throw error
+    if (error) throw new Error(error.message)
   }
 }
