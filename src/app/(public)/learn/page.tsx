@@ -18,6 +18,14 @@ export const metadata: Metadata = {
     description:
       "Understand Sounil Yu's Cyber Defense Matrix — a 5×5 grid mapping NIST CSF functions against asset classes.",
     url: "https://cyberdefensematrix.ai/learn",
+    images: [
+      {
+        url: "https://cyberdefensematrix.ai/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Cyber Defense Matrix AI — Security Posture Assessment",
+      },
+    ],
   },
 }
 
