@@ -231,7 +231,7 @@ export default function HomePage() {
                   </a>
                 </li>
                 <li>
-                  <a href="https://github.com/webmaxlabs/nist-cyber-defense-matrix-app/discussions" target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-cyan-400 transition-colors">
+                  <a href="https://github.com/orgs/community/discussions/" target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-cyan-400 transition-colors">
                     Discussions
                   </a>
                 </li>
