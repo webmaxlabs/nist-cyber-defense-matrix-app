@@ -203,7 +203,7 @@ export function ToolShowcaseSlider() {
     if (isPaused) return
     const interval = setInterval(() => {
       setCurrentIndex(prev => (prev + 1) % SHOWCASE_TOOLS.length)
-    }, 4000)
+    }, 2500)
     return () => clearInterval(interval)
   }, [isPaused, tick])
 
