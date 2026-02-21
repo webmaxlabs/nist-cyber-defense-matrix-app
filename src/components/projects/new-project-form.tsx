@@ -22,13 +22,17 @@ export function NewProjectForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const project = await createMutation.mutateAsync({
-      name,
-      description: description || undefined,
-      industry: industry || undefined,
-      company_size: companySize || undefined,
-    })
-    router.push(`/project/${project.id}`)
+    try {
+      const project = await createMutation.mutateAsync({
+        name,
+        description: description || undefined,
+        industry: industry || undefined,
+        company_size: companySize || undefined,
+      })
+      router.push(`/project/${project.id}`)
+    } catch (err) {
+      console.error('Project creation failed:', err)
+    }
   }
 
   return (

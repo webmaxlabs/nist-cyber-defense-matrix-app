@@ -3,9 +3,12 @@ import type { CreateProjectInput, UpdateProjectInput } from '@/lib/validators/pr
 
 export async function createProject(input: CreateProjectInput) {
   const supabase = createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  console.log('[createProject] getting user...')
+  const { data: { user }, error: authError } = await supabase.auth.getUser()
+  console.log('[createProject] user:', user?.id, 'authError:', authError?.message)
   if (!user) throw new Error('Not authenticated')
 
+  console.log('[createProject] inserting project...')
   const { data, error } = await supabase
     .from('projects')
     .insert({
