@@ -1,4 +1,6 @@
-import { createClient } from '@/lib/supabase/client'
+'use server'
+
+import { createClient } from '@/lib/supabase/server'
 import type { ActionType, EntityType } from '@/lib/supabase/types'
 
 export async function logActivity({
@@ -16,12 +18,12 @@ export async function logActivity({
   description?: string
   metadata?: Record<string, unknown>
 }) {
-  const supabase = createClient()
-  const { data: { session } } = await supabase.auth.getSession()
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
 
   await supabase.from('activity_log').insert({
     project_id: projectId,
-    user_id: session?.user?.id,
+    user_id: user?.id,
     action_type: actionType,
     entity_type: entityType,
     entity_id: entityId,

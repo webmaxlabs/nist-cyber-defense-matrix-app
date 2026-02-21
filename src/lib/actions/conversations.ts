@@ -1,4 +1,6 @@
-import { createClient } from '@/lib/supabase/client'
+'use server'
+
+import { createClient } from '@/lib/supabase/server'
 import type { ChatProposal } from '@/lib/supabase/types'
 
 export async function updateProposalStatus(
@@ -7,7 +9,7 @@ export async function updateProposalStatus(
   status: 'applied' | 'dismissed' | 'error',
   errorMessage?: string
 ) {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const { data: message, error: fetchError } = await supabase
     .from('chat_messages')
@@ -38,7 +40,7 @@ export async function updateProposalStatus(
 }
 
 export async function deleteConversation(conversationId: string) {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { error } = await supabase
     .from('chat_conversations')
     .delete()
@@ -48,7 +50,7 @@ export async function deleteConversation(conversationId: string) {
 }
 
 export async function updateConversationTitle(conversationId: string, title: string) {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { error } = await supabase
     .from('chat_conversations')
     .update({ title, updated_at: new Date().toISOString() })
@@ -61,7 +63,7 @@ export async function updateConversationProjects(
   conversationId: string,
   projectIds: string[]
 ) {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const { error: deleteError } = await supabase
     .from('chat_conversation_projects')
