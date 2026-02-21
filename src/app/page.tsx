@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { HeroSection } from '@/components/landing/hero-section'
 import { FeatureCards } from '@/components/landing/feature-cards'
 import { ToolShowcaseSlider } from '@/components/landing/tool-showcase-slider'
@@ -6,9 +7,42 @@ import { TopNav } from '@/components/layout/top-nav'
 import { Shield, ShieldCheck, Github, BookOpen, Globe, Code2 } from 'lucide-react'
 import Link from 'next/link'
 
+export const metadata: Metadata = {
+  title: "Cyber Defense Matrix AI — Open Source Security Posture Assessment",
+  description:
+    "Map your cybersecurity posture with the Cyber Defense Matrix. Open source NIST CSF assessment tool with maturity scoring, tool mapping across 25 cells, and AI-powered security analysis. Free to deploy.",
+  alternates: {
+    canonical: "https://cyberdefensematrix.ai",
+  },
+}
+
 export default function HomePage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "Cyber Defense Matrix AI",
+    applicationCategory: "SecurityApplication",
+    operatingSystem: "Web",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    author: {
+      "@type": "Organization",
+      name: "Cyber Defense Matrix AI",
+      url: "https://cyberdefensematrix.ai",
+    },
+    description:
+      "Open source cybersecurity posture assessment platform built on Sounil Yu's Cyber Defense Matrix framework. NIST CSF maturity scoring, tool mapping, and AI-powered analysis.",
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <TopNav />
       <HeroSection />
       <FeatureCards />
@@ -162,7 +196,7 @@ export default function HomePage() {
 
             {/* Project column */}
             <div>
-              <h4 className="font-display text-xs font-semibold text-foreground uppercase tracking-wider mb-3">Project</h4>
+              <h3 className="font-display text-xs font-semibold text-foreground uppercase tracking-wider mb-3">Project</h3>
               <ul className="space-y-2">
                 <li>
                   <a href="https://github.com/webmaxlabs/nist-cyber-defense-matrix-app" target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-cyan-400 transition-colors">
@@ -184,7 +218,7 @@ export default function HomePage() {
 
             {/* Community column */}
             <div>
-              <h4 className="font-display text-xs font-semibold text-foreground uppercase tracking-wider mb-3">Community</h4>
+              <h3 className="font-display text-xs font-semibold text-foreground uppercase tracking-wider mb-3">Community</h3>
               <ul className="space-y-2">
                 <li>
                   <a href="https://github.com/webmaxlabs/nist-cyber-defense-matrix-app/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-cyan-400 transition-colors">
@@ -206,7 +240,7 @@ export default function HomePage() {
 
             {/* Framework column */}
             <div>
-              <h4 className="font-display text-xs font-semibold text-foreground uppercase tracking-wider mb-3">Framework</h4>
+              <h3 className="font-display text-xs font-semibold text-foreground uppercase tracking-wider mb-3">Framework</h3>
               <ul className="space-y-2">
                 <li>
                   <Link href="/learn" className="text-xs text-muted-foreground hover:text-cyan-400 transition-colors">

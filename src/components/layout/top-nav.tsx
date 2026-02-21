@@ -48,6 +48,7 @@ export function TopNav() {
             rel="noopener noreferrer"
             className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
             title="View on GitHub"
+            aria-label="View source code on GitHub"
           >
             <Github className="h-4 w-4 text-slate-500 dark:text-slate-400" />
           </a>
@@ -56,6 +57,7 @@ export function TopNav() {
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
               className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
               title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
             >
               {theme === 'dark' ? (
                 <Sun className="h-4 w-4 text-slate-400" />

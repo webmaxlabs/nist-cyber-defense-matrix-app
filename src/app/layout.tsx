@@ -21,9 +21,67 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = "https://cyberdefensematrix.ai";
+
 export const metadata: Metadata = {
-  title: "Cyber Defense Matrix AI — Security Posture Assessment",
-  description: "Map your cybersecurity posture with the Cyber Defense Matrix framework",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Cyber Defense Matrix AI — Open Source Security Posture Assessment",
+    template: "%s | Cyber Defense Matrix AI",
+  },
+  description:
+    "Map your cybersecurity posture with the Cyber Defense Matrix framework. Open source tool for NIST CSF assessment, maturity scoring, tool mapping, and AI-powered security analysis.",
+  keywords: [
+    "cyber defense matrix",
+    "cybersecurity assessment",
+    "NIST CSF",
+    "security posture",
+    "maturity assessment",
+    "security tool mapping",
+    "open source security",
+    "Sounil Yu",
+    "cyber defense matrix AI",
+  ],
+  authors: [{ name: "Cyber Defense Matrix AI" }],
+  creator: "Cyber Defense Matrix AI",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: "Cyber Defense Matrix AI",
+    title: "Cyber Defense Matrix AI — Open Source Security Posture Assessment",
+    description:
+      "Map your cybersecurity posture with the Cyber Defense Matrix framework. Open source NIST CSF assessment with AI-powered analysis.",
+    url: siteUrl,
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Cyber Defense Matrix AI — Security Posture Assessment",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cyber Defense Matrix AI — Open Source Security Posture Assessment",
+    description:
+      "Map your cybersecurity posture with the Cyber Defense Matrix framework. Open source NIST CSF assessment with AI-powered analysis.",
+    images: ["/og-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: siteUrl,
+  },
 };
 
 export default function RootLayout({
@@ -36,6 +94,32 @@ export default function RootLayout({
       <body
         className={`${exo2.variable} ${dmSans.variable} ${jetbrainsMono.variable} font-sans antialiased noise`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Organization",
+                  name: "Cyber Defense Matrix AI",
+                  url: siteUrl,
+                  logo: `${siteUrl}/og-image.png`,
+                  sameAs: [
+                    "https://github.com/webmaxlabs/nist-cyber-defense-matrix-app",
+                  ],
+                },
+                {
+                  "@type": "WebSite",
+                  name: "Cyber Defense Matrix AI",
+                  url: siteUrl,
+                  description:
+                    "Open source cybersecurity posture assessment platform built on Sounil Yu's Cyber Defense Matrix framework.",
+                },
+              ],
+            }),
+          }}
+        />
         <ThemeProvider>
           <QueryProvider>
             <AuthProvider>
