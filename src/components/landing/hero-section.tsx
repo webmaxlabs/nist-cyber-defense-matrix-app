@@ -118,6 +118,12 @@ export function HeroSection() {
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
+              <a href="https://github.com/webmaxlabs/nist-cyber-defense-matrix-app" target="_blank" rel="noopener noreferrer">
+                <Button size="lg" variant="outline" className="border-slate-300 dark:border-slate-700/50 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:border-cyan-500/30 hover:text-cyan-300 h-12 px-8 transition-all gap-2">
+                  <Github className="h-4 w-4" />
+                  View on GitHub
+                </Button>
+              </a>
               <Link href="/learn">
                 <Button size="lg" variant="outline" className="border-slate-300 dark:border-slate-700/50 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:border-cyan-500/30 hover:text-cyan-300 h-12 px-8 transition-all gap-2">
                   <BookOpen className="h-4 w-4" />

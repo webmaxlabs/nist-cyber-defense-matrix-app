@@ -157,6 +157,43 @@ The agent uses a hybrid architecture: read operations execute server-side for re
 
 Configure with either Anthropic (direct) or OpenRouter (multi-model) — see environment setup above.
 
+## Security Hardening
+
+This project has been audited against the [OWASP Top 10](https://owasp.org/www-project-top-ten/) and implements defense-in-depth across multiple layers:
+
+### HTTP Security Headers
+
+All responses include hardened headers via `next.config.ts`:
+
+- **Content-Security-Policy** — restricts script, style, image, connect, and font sources
+- **Strict-Transport-Security** — HSTS with 2-year max-age, includeSubDomains, preload
+- **X-Frame-Options: DENY** — prevents clickjacking
+- **X-Content-Type-Options: nosniff** — prevents MIME sniffing
+- **Referrer-Policy: strict-origin-when-cross-origin**
+- **Permissions-Policy** — disables camera, microphone, geolocation
+
+### Authentication & Authorization
+
+- **Row-Level Security (RLS)** on all Supabase tables — users can only access their own data
+- **SECURITY DEFINER helper functions** break RLS circular dependencies between `projects` and `project_members`
+- **Server-side auth verification** — all mutations verify the user via `getUser()` before executing
+- **Admin client pattern** — write operations use a service-role client after auth verification, with app-level ownership checks (`.eq('owner_id', user.id)`)
+- **Open redirect prevention** — auth callback validates redirect paths, blocks `//`, `:\`, and encoded slashes
+- **Password policy** — minimum 8 characters, requires uppercase, lowercase, and number
+
+### API Defenses
+
+- **Rate limiting** — token bucket (20 requests/minute per user) on the chat API
+- **CORS origin validation** — chat API verifies request origin against allowed domains
+- **Zod schema validation** — all API inputs validated; error details never leaked to client
+- **Input sanitization** — HTML tags and control characters stripped from all user-provided text
+- **Prompt injection prevention** — project data sanitized before interpolation into AI system prompts
+
+### Security Logging
+
+- **Structured JSON logging** for security events (rate limit hits, CORS violations, auth failures, invalid redirects)
+- **Auth callback error logging** — OAuth code exchange failures logged with error details for debugging
+
 ## Deployment
 
 Deploy to any platform that supports Next.js. The live demo runs on [Vercel](https://vercel.com).
