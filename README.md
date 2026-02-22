@@ -1,36 +1,172 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cyber Defense Matrix AI
+
+Open source cybersecurity posture assessment platform built on [Sounil Yu's Cyber Defense Matrix](https://cyberdefensematrix.com) — a 5x5 grid mapping NIST CSF functions (Identify, Protect, Detect, Respond, Recover) against asset classes (Devices, Applications, Networks, Data, Users).
+
+**Live demo:** [cyberdefensematrix.ai](https://cyberdefensematrix.ai)
+
+## What It Does
+
+- **Assess maturity** across all 25 cells of the Cyber Defense Matrix (levels 1-5)
+- **Map security tools** to specific cells to see what's covered and what's not
+- **Identify gaps** — unassessed cells, low maturity areas, cells with no tools
+- **Generate reports** with exportable data for stakeholders
+- **AI Security Advisor** — chat with an AI agent that can read your matrix, analyze gaps, compare projects, and propose changes (with confirmation before any writes)
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 16 (App Router) + React 19 + TypeScript |
+| Database | Supabase (PostgreSQL + Auth + RLS) |
+| Styling | Tailwind CSS v4 + shadcn/ui |
+| Animation | Framer Motion 12 |
+| Charts | Recharts 3 |
+| State | TanStack React Query v5 |
+| AI | Anthropic SDK / OpenRouter (configurable) |
+| Validation | Zod v4 |
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- A [Supabase](https://supabase.com) project
+- (Optional) An [Anthropic](https://console.anthropic.com) or [OpenRouter](https://openrouter.ai) API key for the AI advisor
+
+### 1. Clone and install
+
+```bash
+git clone https://github.com/webmaxlabs/nist-cyber-defense-matrix-app.git
+cd nist-cyber-defense-matrix-app
+npm install
+```
+
+### 2. Configure environment
+
+```bash
+cp .env.example .env.local
+```
+
+Edit `.env.local` with your Supabase credentials:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-supabase-publishable-key
+SUPABASE_SECRET_KEY=your-supabase-secret-key
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+For the AI advisor (optional):
+
+```env
+# Option A: OpenRouter (default, supports multiple models)
+OPENROUTER_API_KEY=your-openrouter-api-key
+OPENROUTER_MODEL=anthropic/claude-sonnet-4
+
+# Option B: Anthropic direct
+ANTHROPIC_API_KEY=your-anthropic-api-key
+```
+
+### 3. Set up the database
+
+Run the SQL migrations in order against your Supabase project. You can do this through the Supabase Dashboard SQL Editor or using the Supabase CLI:
+
+```bash
+supabase db push
+```
+
+The migrations create all tables, RLS policies, and helper functions.
+
+### 4. Configure Supabase Auth
+
+In your Supabase Dashboard under **Authentication > URL Configuration**:
+
+- **Site URL**: `http://localhost:3000` (or your production domain)
+- **Redirect URLs**: `http://localhost:3000/auth/callback`
+
+### 5. Run
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run dev     # Start dev server
+npm run build   # Production build
+npm run start   # Start production server
+npm run lint    # ESLint
+```
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/
+│   ├── (auth)/          # Login, signup, auth callbacks
+│   ├── (dashboard)/     # Authenticated pages (projects, matrix, report)
+│   ├── (public)/        # Public pages (learn)
+│   ├── api/chat/        # AI chat streaming endpoint
+│   └── page.tsx         # Landing page
+├── components/
+│   ├── chat/            # AI advisor widget and sidebar
+│   ├── landing/         # Homepage sections
+│   ├── matrix/          # Core 5x5 grid, cell details, assessments
+│   ├── projects/        # Project CRUD
+│   └── report/          # Report generation
+├── lib/
+│   ├── actions/         # Server actions (mutations)
+│   ├── ai/              # AI agent: providers, tools, agent loop
+│   ├── constants/       # Matrix enums, labels, colors
+│   ├── data/            # 100+ security tools catalog
+│   ├── hooks/           # TanStack Query hooks
+│   └── supabase/        # Client, server, admin, types
+└── providers/           # Auth, Query, Theme, Chat providers
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## The Cyber Defense Matrix
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The framework maps five NIST Cybersecurity Framework functions against five asset classes:
 
-## Deploy on Vercel
+|  | Identify | Protect | Detect | Respond | Recover |
+|--|----------|---------|--------|---------|---------|
+| **Devices** | | | | | |
+| **Applications** | | | | | |
+| **Networks** | | | | | |
+| **Data** | | | | | |
+| **Users** | | | | | |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Each cell gets a maturity rating (1-5) and can have security tools mapped to it. This gives you a clear picture of where your security program is strong and where the gaps are.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Learn more at [cyberdefensematrix.ai/learn](https://cyberdefensematrix.ai/learn) or read [Sounil Yu's original work](https://cyberdefensematrix.com).
+
+## AI Security Advisor
+
+The built-in AI agent can:
+
+- Read your project data, assessments, and tool mappings
+- Analyze coverage gaps and recommend priorities
+- Compare maturity across multiple projects
+- Search a catalog of 100+ security tools
+- Propose assessment updates and tool mappings (with user confirmation before any changes)
+
+The agent uses a hybrid architecture: read operations execute server-side for real data access, while write operations are emitted as confirmation tiles that require user approval.
+
+Configure with either Anthropic (direct) or OpenRouter (multi-model) — see environment setup above.
+
+## Deployment
+
+Deploy to any platform that supports Next.js. The live demo runs on [Vercel](https://vercel.com).
+
+Make sure to set all environment variables in your hosting platform and update the Supabase Auth URL configuration to match your production domain.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## License
+
+[MIT](LICENSE)
