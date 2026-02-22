@@ -233,8 +233,8 @@ export default function HomePage() {
                   </a>
                 </li>
                 <li>
-                  <a href="https://github.com/orgs/community/discussions/" target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-cyan-400 transition-colors">
-                    Discussions
+                  <a href="https://www.linkedin.com/in/jake-ely/" target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-cyan-400 transition-colors">
+                    Contact
                   </a>
                 </li>
               </ul>
