@@ -22,7 +22,7 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
 });
 
-const siteUrl = "https://cyberdefensematrix.ai";
+const siteUrl = "https://www.cyberdefensematrix.ai";
 
 export const viewport: Viewport = {
   themeColor: [

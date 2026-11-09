@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description:
     "Map your cybersecurity posture with the Cyber Defense Matrix. Open source NIST CSF assessment tool with maturity scoring, tool mapping across 25 cells, and AI-powered security analysis. Free to deploy.",
   alternates: {
-    canonical: "https://cyberdefensematrix.ai",
+    canonical: "https://www.cyberdefensematrix.ai",
   },
 }
 
@@ -32,7 +32,7 @@ export default function HomePage() {
     author: {
       "@type": "Organization",
       name: "Cyber Defense Matrix AI",
-      url: "https://cyberdefensematrix.ai",
+      url: "https://www.cyberdefensematrix.ai",
     },
     description:
       "Open source cybersecurity posture assessment platform built on Sounil Yu's Cyber Defense Matrix framework. NIST CSF maturity scoring, tool mapping, and AI-powered analysis.",

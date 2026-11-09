@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = 'https://cyberdefensematrix.ai'
+  const baseUrl = 'https://www.cyberdefensematrix.ai'
 
   return {
     rules: [

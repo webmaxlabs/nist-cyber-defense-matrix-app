@@ -11,16 +11,16 @@ export const metadata: Metadata = {
   description:
     "Understand Sounil Yu's Cyber Defense Matrix — a 5×5 grid mapping NIST CSF functions against asset classes. Learn maturity assessment, tool mapping, and security gap analysis.",
   alternates: {
-    canonical: "https://cyberdefensematrix.ai/learn",
+    canonical: "https://www.cyberdefensematrix.ai/learn",
   },
   openGraph: {
     title: "Learn the Cyber Defense Matrix Framework",
     description:
       "Understand Sounil Yu's Cyber Defense Matrix — a 5×5 grid mapping NIST CSF functions against asset classes.",
-    url: "https://cyberdefensematrix.ai/learn",
+    url: "https://www.cyberdefensematrix.ai/learn",
     images: [
       {
-        url: "https://cyberdefensematrix.ai/og-image.png",
+        url: "https://www.cyberdefensematrix.ai/og-image.png",
         width: 1200,
         height: 630,
         alt: "Cyber Defense Matrix AI — Security Posture Assessment",
@@ -51,13 +51,13 @@ export default function LearnPage() {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://cyberdefensematrix.ai",
+        item: "https://www.cyberdefensematrix.ai",
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Learn",
-        item: "https://cyberdefensematrix.ai/learn",
+        item: "https://www.cyberdefensematrix.ai/learn",
       },
     ],
   }
